@@ -77,12 +77,24 @@ void conecta_K_test_cargar_tablero(TABLERO *t)
 // F7 00 00 00 00 00 00 00 
 void conecta_K_visualizar_tablero(TABLERO *t, uint8_t pantalla[8][8])
 {
-	CELDA c;
+	// Mostrar filas
+	for (uint8_t i = 1; i <= NUM_FILAS; i++) {
+		pantalla[i][0] = 0xF0 + i;
+	}
 	
-	for (uint8_t i = 0; i < NUM_FILAS; ++i) {
-		for (uint8_t j = 0; j < NUM_COLUMNAS; ++j) {
-			c = tablero_leer_celda(t, i, j);
-			pantalla[i+1][j+1] = celda_color(c);
+	// Mostrar columnas
+	for (uint8_t i = 1; i <= NUM_COLUMNAS; i++) {
+		pantalla[0][i] = 0xC0 + i;
+	}
+	
+	// Mostrar el interior del tablero de juego
+	CELDA celda;
+	uint8_t color;
+	for (uint8_t i = 0; i < NUM_FILAS; i++) {
+		for (uint8_t j = 0; j < NUM_COLUMNAS; j++) {
+			celda = tablero_leer_celda(t, i, j);
+			color = celda_color(celda);
+			pantalla[i+1][j+1] = (color << 4) + color;
 		}
 	}
 	//.... tablero_leer_celda...
