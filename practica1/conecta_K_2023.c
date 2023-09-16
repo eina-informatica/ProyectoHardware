@@ -42,6 +42,8 @@ conecta_K_hay_linea_c_c(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color
        // buscar sentido inverso
        long_linea += conecta_K_buscar_alineamiento_c(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
+
+
        linea = long_linea >= K_SIZE;
    }
    return linea;
