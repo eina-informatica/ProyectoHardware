@@ -486,6 +486,11 @@
               <FileType>1</FileType>
               <FilePath>.\tablero.c</FilePath>
             </File>
+            <File>
+              <FileName>conecta_K_buscar_alineamiento_arm.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\conecta_K_buscar_alineamiento_arm.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

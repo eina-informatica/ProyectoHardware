@@ -2,6 +2,8 @@
 #include "entrada.h"
 #include <stdio.h>
 
+extern uint8_t conecta_K_buscar_alineamiento_arm(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color, int8_t deltas_fila, int8_t deltas_columna);
+
 // devuelve la longitud de la línea más larga en un determinado sentido
 uint8_t conecta_K_buscar_alineamiento_c(TABLERO *t, uint8_t fila,
 	uint8_t columna, uint8_t color, int8_t delta_fila, int8_t
@@ -41,6 +43,35 @@ conecta_K_hay_linea_c_c(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color
        }
        // buscar sentido inverso
        long_linea += conecta_K_buscar_alineamiento_c(t, fila-deltas_fila[i],
+	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
+
+
+       linea = long_linea >= K_SIZE;
+   }
+   return linea;
+}
+
+// devuelve true si encuentra una línea de longitud mayor o igual a _K
+uint8_t
+conecta_K_hay_linea_c_arm(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color)
+{
+	 enum { N_DELTAS = 4};
+   int8_t deltas_fila[N_DELTAS] = {0, -1, -1, 1};
+   int8_t deltas_columna[N_DELTAS] = {-1, 0, -1, -1};
+   unsigned int i = 0;
+   uint8_t linea = FALSE;
+   uint8_t long_linea = 0;
+
+   // buscar linea en fila, columna y 2 diagonales
+   for(i=0; (i < N_DELTAS) && (linea == FALSE); ++i) {
+       // buscar sentido
+       long_linea = conecta_K_buscar_alineamiento_arm(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
+       linea = long_linea >= K_SIZE;
+       if (linea) {
+         continue;
+       }
+       // buscar sentido inverso
+       long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
 
 
@@ -107,10 +138,10 @@ void conecta_K_visualizar_tablero(TABLERO *t, uint8_t pantalla[8][8])
 //
 int conecta_K_verificar_K_en_linea(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color){
 	// en esta funcion es donde se debe verificar que todas las optimizaciones dan el mismo resultado
-	uint8_t resultado_c_c = conecta_K_hay_linea_c_c(t, fila, columna, color);
-	//uint8_t resultado_arm_c = conecta4_hay_linea_arm_c ....
+	//uint8_t resultado = conecta_K_hay_linea_c_c(t, fila, columna, color);
+	uint8_t resultado = conecta_K_hay_linea_c_arm(t, fila, columna, color);
 	//if(resultado_c_c != resultado_arm_c) ...  while(1); a depurar
-	return resultado_c_c;
+	return resultado;
 }
 
 void conecta_K_jugar(void){
