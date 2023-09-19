@@ -1,5 +1,4 @@
 AREA codigo, CODE, READONLY 
-ENTRY 
 EXPORT conecta_K_buscar_alineamiento_arm
 
 conecta_K_buscar_alineamiento_arm
