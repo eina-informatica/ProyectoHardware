@@ -40,9 +40,9 @@ bucle
         add r1, r1, r4 ; r1 - fila + deltas_fila[i]
         ldrsb r5, [fp, #8] ; r5 - deltas_columna[i]
         add r2, r2, r5 ; r2 - columna + deltas_columna[i]
-        stmdb r13!, {r4-r8} ; se apilan los deltas para la siguiente llamada recursiva
+        stmdb r13!, {r4-r5} ; se apilan los deltas para la siguiente llamada recursiva
         bl conecta_K_buscar_alineamiento_arm
-        add sp, sp, #20
+        add sp, sp, #8
         add r0, r0, #1 ; r0 - r0 + 1 (return 1 + resultado funci?n)
         ldmia r13!, {r4-r8, fp, lr}
         bx r14
@@ -50,4 +50,4 @@ fin
         mov r0, #0 ; r0 - 0 (return 0)
         ldmia r13!, {r4-r8, fp, lr}
         bx r14
-END
+		END

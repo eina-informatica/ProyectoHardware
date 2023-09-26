@@ -60,7 +60,7 @@ rm
                                                             mna[i]
    42 0000007C E0822005        add              r2, r2, r5  ; r2 - columna + de
                                                             ltas_columna[i]
-   43 00000080 E92D01F0        stmdb            r13!, {r4-r8} ; se apilan los d
+   43 00000080 E92D0030        stmdb            r13!, {r4-r5} ; se apilan los d
                                                             eltas para la sigui
                                                             ente llamada recurs
 
@@ -72,7 +72,7 @@ ARM Macro Assembler    Page 2
                                                             iva
    44 00000084 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
 rm
-   45 00000088 E28DD014        add              sp, sp, #20
+   45 00000088 E28DD008        add              sp, sp, #8
    46 0000008C E2800001        add              r0, r0, #1  ; r0 - r0 + 1 (retu
                                                             rn 1 + resultado fu
                                                             nci?n)
@@ -83,8 +83,7 @@ rm
                                                             
    51 0000009C E8BD49F0        ldmia            r13!, {r4-r8, fp, lr}
    52 000000A0 E12FFF1E        bx               r14
-   53 000000A4         END
-                       
+   53 000000A4                 END
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
 bjects\conecta_k_buscar_alineamiento_arm.d -o.\objects\conecta_k_buscar_alineam
 iento_arm.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_
@@ -97,14 +96,6 @@ ar_alineamiento_arm.s
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-END 000000A4
-
-Symbol: END
-   Definitions
-      At line 53 in file conecta_K_buscar_alineamiento_arm.s
-   Uses
-      None
-Comment: END unused
 bucle 00000030
 
 Symbol: bucle
@@ -143,5 +134,5 @@ Symbol: fin
       At line 23 in file conecta_K_buscar_alineamiento_arm.s
       At line 38 in file conecta_K_buscar_alineamiento_arm.s
 
-5 symbols
-337 symbols in table
+4 symbols
+336 symbols in table

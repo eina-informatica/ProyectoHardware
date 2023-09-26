@@ -35,13 +35,13 @@ rm
                                                              0
    24 00000028         ini_bucle
    25 00000028 E3580004        cmp              r8, #4      ; i < numDeltas
-   26 0000002C CA00001C        bgt              fin
+   26 0000002C CA00001E        bgt              fin
    27 00000030 E3590001        cmp              r9, #1      ; linea == True
-   28 00000034 0A00001A        beq              fin
-   29 00000038 E59F0070        ldr              r0, =dfila  ; r0  dfila
-   30 0000003C E19010D8        ldrsb            r1, [r0, r8] ; r0  dfila[i]
-   31 00000040 E59F006C        ldr              r0, =dcolum ; r1  dcolum
-   32 00000044 E19120D8        ldrsb            r2, [r1, r8] ; r1  dcolum[i]
+   28 00000034 0A00001C        beq              fin
+   29 00000038 E59F0078        ldr              r0, =dfila  ; r0  dfila
+   30 0000003C E19010D8        ldrsb            r1, [r0, r8] ; r1  dfila[i]
+   31 00000040 E59F0074        ldr              r0, =dcolum ; r1  dcolum
+   32 00000044 E19020D8        ldrsb            r2, [r0, r8] ; r2  dcolum[i]
    33 00000048 E92D0006        stmdb            r13!,{r1-r2} ; apilamos dfila[i
                                                             ] y dcolum[i] para 
                                                             la siguiente llamda
@@ -61,7 +61,7 @@ rm
    41 00000068 E35A0004        cmp              r10, #4     ; long_linea == K_s
                                                             ize
    42 0000006C A3A09001        movge            r9, #1      ; linea = True
-   43 00000070 AA00000B        bge              fin
+   43 00000070 AA00000D        bge              fin
    44 00000074 E2611000        rsb              r1 ,r1, #0  ; dfila[i] = -dfila
 
 
@@ -72,34 +72,39 @@ ARM Macro Assembler    Page 2
                                                             [i]
    45 00000078 E2622000        rsb              r2 ,r2, #0  ; dcolum[i] = -dcol
                                                             um[i]
-   46 0000007C E92D0006        stmdb            r13!,{r1-r2} ; apilamos dfila[i
-                                                            ] y dcolum[i] para 
-                                                            la siguiente llamda
-                                                             de buscar_alineami
-                                                            ento
-   47 00000080 E0851002        add              r1, r5, r2  ; r1  fila + (-delt
+   46 0000007C E92D0006        stmdb            r13!,{r1-r2} ; apilamos -dfila[
+                                                            i] y -dcolum[i] par
+                                                            a la siguiente llam
+                                                            da de buscar_alinea
+                                                            miento
+   47 00000080 E1A00004        mov              r0, r4      ; r0 cuadricula
+   48 00000084 E0851001        add              r1, r5, r1  ; r1  fila + (-delt
                                                             as_fila[i])
-   48 00000084 E0862003        add              r2, r6, r3  ; r2  columna + (-d
+   49 00000088         ;and r1,r1,#0xFF MIRARLUEGO
+   50 00000088 E0862002        add              r2, r6, r2  ; r2  columna + (-d
                                                             eltas_columna[i])
-   49 00000088 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
+   51 0000008C         ;and r2,r2,#0xFF MIRARLUEGO
+   52 0000008C E1A03007        mov              r3, r7      ;  r3  color (PROBA
+                                                            R A QUITARLO)
+   53 00000090 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
 rm 
                                                             ; llamada con la in
                                                             versa
-   50 0000008C E8BD0006        ldmia            r13!,{r1-r2} ; desapilamos dfil
+   54 00000094 E8BD0006        ldmia            r13!,{r1-r2} ; desapilamos dfil
                                                             a[i] y dcolum[i]
-   51 00000090 E1A0A000        mov              r10, r0     ; long_linea = long
-                                                            _linea + long_linea
-                                                            _actual
-   52 00000094 E35A0004        cmp              r10, #4     ; long_linea == K_s
+   55 00000098 E08AA000        add              r10, r10, r0 ; long_linea = lon
+                                                            g_linea + long_line
+                                                            a_actual
+   56 0000009C E35A0004        cmp              r10, #4     ; long_linea == K_s
                                                             ize
-   53 00000098 A3A09001        movge            r9, #1      ; linea = True
-   54 0000009C E2888001        add              r8, r8, #1  ; i = i + 1
-   55 000000A0 EAFFFFE0        b                ini_bucle
-   56 000000A4         fin
-   57 000000A4 E1A00009        mov              r0, r9      ; r0  linea
-   58 000000A8 E8BD4FF0        ldmia            r13!, {r4-r10, fp, lr}
-   59 000000AC E12FFF1E        bx               r14
-   60 000000B0                 END
+   57 000000A0 A3A09001        movge            r9, #1      ; linea = True
+   58 000000A4 E2888001        add              r8, r8, #1  ; i = i + 1
+   59 000000A8 EAFFFFDE        b                ini_bucle
+   60 000000AC         fin
+   61 000000AC E1A00009        mov              r0, r9      ; r0  linea
+   62 000000B0 E8BD4FF0        ldmia            r13!, {r4-r10, fp, lr}
+   63 000000B4 E12FFF1E        bx               r14
+   64 000000B8                 END
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
@@ -160,11 +165,11 @@ Symbol: conecta_K_hay_linea_arm_arm
    Uses
       At line 7 in file conecta_K_hay_linea_arm_arm.s
 Comment: conecta_K_hay_linea_arm_arm used once
-fin 000000A4
+fin 000000AC
 
 Symbol: fin
    Definitions
-      At line 56 in file conecta_K_hay_linea_arm_arm.s
+      At line 60 in file conecta_K_hay_linea_arm_arm.s
    Uses
       At line 26 in file conecta_K_hay_linea_arm_arm.s
       At line 28 in file conecta_K_hay_linea_arm_arm.s
@@ -176,7 +181,7 @@ Symbol: ini_bucle
    Definitions
       At line 24 in file conecta_K_hay_linea_arm_arm.s
    Uses
-      At line 55 in file conecta_K_hay_linea_arm_arm.s
+      At line 59 in file conecta_K_hay_linea_arm_arm.s
 Comment: ini_bucle used once
 4 symbols
 
@@ -192,7 +197,7 @@ Symbol: conecta_K_buscar_alineamiento_arm
       At line 6 in file conecta_K_hay_linea_arm_arm.s
    Uses
       At line 38 in file conecta_K_hay_linea_arm_arm.s
-      At line 49 in file conecta_K_hay_linea_arm_arm.s
+      At line 53 in file conecta_K_hay_linea_arm_arm.s
 
 1 symbol
 342 symbols in table

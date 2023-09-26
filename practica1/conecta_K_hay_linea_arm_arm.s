@@ -27,9 +27,9 @@ ini_bucle
     cmp r9, #1 ; linea == True
     beq fin
     ldr r0, =dfila ; r0  dfila
-    ldrsb r1, [r0, r8] ; r0  dfila[i]
+    ldrsb r1, [r0, r8] ; r1  dfila[i]
     ldr r0, =dcolum ; r1  dcolum
-    ldrsb r2, [r1, r8] ; r1  dcolum[i]
+    ldrsb r2, [r0, r8] ; r2  dcolum[i]
     stmdb r13!,{r1-r2} ; apilamos dfila[i] y dcolum[i] para la siguiente llamda de buscar_alineamiento
     mov r0, r4 ; r0  cuadricula
     mov r1, r5 ;  r1  fila
@@ -43,12 +43,16 @@ ini_bucle
     bge fin
     rsb r1 ,r1, #0 ; dfila[i] = -dfila[i]
     rsb r2 ,r2, #0 ; dcolum[i] = -dcolum[i]
-    stmdb r13!,{r1-r2} ; apilamos dfila[i] y dcolum[i] para la siguiente llamda de buscar_alineamiento
-    add r1, r5, r2 ; r1  fila + (-deltas_fila[i])
-    add r2, r6, r3 ; r2  columna + (-deltas_columna[i])
-    bl conecta_K_buscar_alineamiento_arm ; llamada con la inversa
+    stmdb r13!,{r1-r2} ; apilamos -dfila[i] y -dcolum[i] para la siguiente llamda de buscar_alineamiento
+    mov r0, r4 ; r0 cuadricula
+	add r1, r5, r1 ; r1  fila + (-deltas_fila[i])
+	;and r1,r1,#0xFF MIRARLUEGO
+    add r2, r6, r2 ; r2  columna + (-deltas_columna[i])
+	;and r2,r2,#0xFF MIRARLUEGO
+    mov r3, r7 ;  r3  color (PROBAR A QUITARLO)
+	bl conecta_K_buscar_alineamiento_arm ; llamada con la inversa
     ldmia r13!,{r1-r2} ; desapilamos dfila[i] y dcolum[i]
-    mov r10, r0 ; long_linea = long_linea + long_linea_actual
+    add r10, r10, r0 ; long_linea = long_linea + long_linea_actual
     cmp r10, #4 ; long_linea == K_size
     movge r9, #1 ; linea = True
     add r8, r8, #1 ; i = i + 1
