@@ -3,49 +3,51 @@
 	EXPORT conecta_K_buscar_alineamiento_arm
 
 conecta_K_buscar_alineamiento_arm
-	mov ip, sp
-	stmdb r13!, {r4-r5, fp, lr}
-	sub fp, ip, #4
-	
-	; Comprobamos si la fila es válida
-	cmp r1, #1
-	blt fin ; si fila < 1
-	cmp r1, #6
-	bgt fin ; si fila > 6
-	
-	; Comprobamos si la columna es válida
-	cmp r2, #1
-	blt fin ; si columna < 1
-	cmp r2, #7
-	bgt fin ; si columna > 7
-	
-	; Si la celda se encuentra en el tablero, obtenemos su valor
-	add r4, r0, r1, LSL #3
-	ldrb r4, [r4, r2] ; r4 - cuadricula[fila][columna]	
-	
-	; Comprobamos si la celda es vacía
-	and r5, r4, #4
-	cmp r5, #0
-	beq fin ; Si celda es vacía
-	
-	; Comprobamos si el color de la celda es el color de la l?nea que estamos comprobando
-	and r4, r4, #3
-	cmp r4, r3
-	bne fin ; Si los colores no coinciden
-	
-	; Preparamos los parámetros para llamar a la funci?n
-	ldrsb r4, [fp, #4] ; r4 - deltas_fila[i]
-	add r1, r1, r4 ; r1 - fila + deltas_fila[i]
-	ldrsb r5, [fp, #8] ; r5 - deltas_columna[i]
-	add r2, r2, r5 ; r2 - columna + deltas_columna[i]
-	stmdb r13!, {r4-r5} ; Se apilan los deltas para la siguiente llamada recursiva
-	bl conecta_K_buscar_alineamiento_arm
-	add sp, sp, #8
-	add r0, r0, #1 ; r0 - r0 + 1 (return 1 + resultado funci?n)
-	ldmia r13!, {r4-r5, fp, lr}
-	bx r14
+        mov ip, sp
+        stmdb r13!, {r4-r8, fp, lr}
+        sub fp, ip, #4
+        ; comprobamos si la fila es v?lida
+        cmp r1, #0
+        blt fin ; si fila < 0
+        cmp r1, #7
+        bgt fin ; si fila > 7
+        ; comprobamos si la columna es v?lida
+        cmp r2, #0
+        blt fin ; si columna < 1
+        cmp r2, #7
+        bgt fin ; si columna > 7
+        ; si la celda se encuentra en el tablero, obtenemos su valor
+        mov r8,#0; inicializamos r8 a 0 (contador)
+bucle
+        cmp r8,#6
+        beq fin
+        add r6,r1,r1,LSL #1 
+        add r7,r0,r6,LSL #1
+        ldrb r7,[r7,r8]
+        add r8,r8,#1 ;cont++
+        ; comprobamos si esta tu celda
+        cmp r7,r2
+        bne bucle
+        sub r8,r8,#1  ; cont-- para recuperar el valor correcto
+        add r6,r1,r1,LSL #1
+        add r7,r0,#0x0000002A ;buscar en la parte de abajo del tablero (dnde se indexan los colores)
+        add r7,r7,r6,LSL #1
+        ldrb r7,[r7,r8] ; valor del color
+        and r7,r7,#0x03
+        cmp r7,r3 ;comparamos el color con el parametro
+        bne fin
+        ldrsb r4, [fp, #4] ; r4 - deltas_fila[i]
+        add r1, r1, r4 ; r1 - fila + deltas_fila[i]
+        ldrsb r5, [fp, #8] ; r5 - deltas_columna[i]
+        add r2, r2, r5 ; r2 - columna + deltas_columna[i]
+        stmdb r13!, {r4-r8} ; se apilan los deltas para la siguiente llamada recursiva
+        bl conecta_K_buscar_alineamiento_arm
+        add sp, sp, #20
+        add r0, r0, #1 ; r0 - r0 + 1 (return 1 + resultado funci?n)
+        ldmia r13!, {r4-r8, fp, lr}
+        bx r14
 fin
-	mov r0, #0 ; r0 - 0 (return 0)
-	ldmia r13!, {r4-r5, fp, lr}
-	bx r14
+        mov r0, #0 ; r0 - 0 (return 0)
+        ldmia r13!, {r4-r8, fp, lr}
+        bx r14
 END

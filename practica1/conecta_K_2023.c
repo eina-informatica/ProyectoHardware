@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 extern uint8_t conecta_K_buscar_alineamiento_arm(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color, int8_t deltas_fila, int8_t deltas_columna);
+extern uint8_t conecta_K_hay_linea_arm_c(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color);
 
 // devuelve la longitud de la línea más larga en un determinado sentido
 uint8_t conecta_K_buscar_alineamiento_c(TABLERO *t, uint8_t fila,
@@ -65,15 +66,19 @@ conecta_K_hay_linea_c_arm(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t col
    // buscar linea en fila, columna y 2 diagonales
    for(i=0; (i < N_DELTAS) && (linea == FALSE); ++i) {
        // buscar sentido
-       long_linea = conecta_K_buscar_alineamiento_arm(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
+      long_linea = conecta_K_buscar_alineamiento_arm(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
+		 //long_linea = conecta_K_buscar_alineamiento_c(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
        linea = long_linea >= K_SIZE;
-       if (linea) {
+				if (linea) {
          continue;
        }
        // buscar sentido inverso
-       long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
+			long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
-
+			 /*
+       long_linea += conecta_K_buscar_alineamiento_c(t, fila-deltas_fila[i],
+	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
+*/
 
        linea = long_linea >= K_SIZE;
    }
@@ -139,7 +144,7 @@ void conecta_K_visualizar_tablero(TABLERO *t, uint8_t pantalla[8][8])
 int conecta_K_verificar_K_en_linea(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color){
 	// en esta funcion es donde se debe verificar que todas las optimizaciones dan el mismo resultado
 	//uint8_t resultado = conecta_K_hay_linea_c_c(t, fila, columna, color);
-	uint8_t resultado = conecta_K_hay_linea_c_arm(t, fila, columna, color);
+	uint8_t resultado = conecta_K_hay_linea_arm_c(t, fila, columna, color);
 	//if(resultado_c_c != resultado_arm_c) ...  while(1); a depurar
 	return resultado;
 }
