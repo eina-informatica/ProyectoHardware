@@ -3,6 +3,7 @@
 ".\objects\conecta_k_buscar_alineamiento_arm.o"
 ".\objects\conecta_k_hay_linea_arm_c.o"
 ".\objects\conecta_k_hay_linea_arm_arm.o"
+".\objects\conecta_k_buscar_alineamiento_arm_opt.o"
 ".\objects\conecta_k_2023.o"
 ".\objects\main.o"
 ".\objects\entrada.o"

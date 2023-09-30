@@ -46,10 +46,8 @@ ini_bucle
     stmdb r13!,{r1-r2} ; apilamos -dfila[i] y -dcolum[i] para la siguiente llamda de buscar_alineamiento
     mov r0, r4 ; r0 cuadricula
 	add r1, r5, r1 ; r1  fila + (-deltas_fila[i])
-	;and r1,r1,#0xFF MIRARLUEGO
     add r2, r6, r2 ; r2  columna + (-deltas_columna[i])
-	;and r2,r2,#0xFF MIRARLUEGO
-    mov r3, r7 ;  r3  color (PROBAR A QUITARLO)
+    mov r3, r7 ;  r3  color
 	bl conecta_K_buscar_alineamiento_c ; llamada con la inversa
     ldmia r13!,{r1-r2} ; desapilamos dfila[i] y dcolum[i]
     add r10, r10, r0 ; long_linea = long_linea + long_linea_actual

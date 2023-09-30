@@ -3,7 +3,7 @@ dfila 	DCB 0x00, 0xFF, 0xFF, 0x01
 dcolum	DCB 0xFF, 0x00, 0xFF, 0xFF
 		AREA codigo, CODE, READONLY
 		PRESERVE8
-		IMPORT conecta_K_buscar_alineamiento_arm
+		IMPORT conecta_K_buscar_alineamiento_arm_opt
 		EXPORT conecta_K_hay_linea_arm_arm
 
 conecta_K_hay_linea_arm_arm
@@ -35,7 +35,7 @@ ini_bucle
     mov r1, r5 ;  r1  fila
     mov r2, r6 ;  r2  columna
     mov r3, r7 ;  r3  color
-    bl conecta_K_buscar_alineamiento_arm
+    bl conecta_K_buscar_alineamiento_arm_opt
     ldmia r13!,{r1-r2} ; desapilamos dfila[i] y dcolum[i]
     mov r10, r0 ; long_linea = long_linea + long_linea_actual
     cmp r10, #4 ; long_linea == K_size
@@ -46,11 +46,9 @@ ini_bucle
     stmdb r13!,{r1-r2} ; apilamos -dfila[i] y -dcolum[i] para la siguiente llamda de buscar_alineamiento
     mov r0, r4 ; r0 cuadricula
 	add r1, r5, r1 ; r1  fila + (-deltas_fila[i])
-	;and r1,r1,#0xFF MIRARLUEGO
     add r2, r6, r2 ; r2  columna + (-deltas_columna[i])
-	;and r2,r2,#0xFF MIRARLUEGO
     mov r3, r7 ;  r3  color (PROBAR A QUITARLO)
-	bl conecta_K_buscar_alineamiento_arm ; llamada con la inversa
+	bl conecta_K_buscar_alineamiento_arm_opt ; llamada con la inversa
     ldmia r13!,{r1-r2} ; desapilamos dfila[i] y dcolum[i]
     add r10, r10, r0 ; long_linea = long_linea + long_linea_actual
     cmp r10, #4 ; long_linea == K_size

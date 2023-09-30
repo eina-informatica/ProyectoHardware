@@ -12,7 +12,7 @@ ARM Macro Assembler    Page 1
     4 00000008                 AREA             codigo, CODE, READONLY
     5 00000000                 PRESERVE8
     6 00000000                 IMPORT           conecta_K_buscar_alineamiento_a
-rm
+rm_opt
     7 00000000                 EXPORT           conecta_K_hay_linea_arm_arm
     8 00000000         
     9 00000000         conecta_K_hay_linea_arm_arm
@@ -52,7 +52,7 @@ rm
    36 00000054 E1A02006        mov              r2, r6      ;  r2  columna
    37 00000058 E1A03007        mov              r3, r7      ;  r3  color
    38 0000005C EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
-rm
+rm_opt
    39 00000060 E8BD0006        ldmia            r13!,{r1-r2} ; desapilamos dfil
                                                             a[i] y dcolum[i]
    40 00000064 E1A0A000        mov              r10, r0     ; long_linea = long
@@ -80,31 +80,29 @@ ARM Macro Assembler    Page 2
    47 00000080 E1A00004        mov              r0, r4      ; r0 cuadricula
    48 00000084 E0851001        add              r1, r5, r1  ; r1  fila + (-delt
                                                             as_fila[i])
-   49 00000088         ;and r1,r1,#0xFF MIRARLUEGO
-   50 00000088 E0862002        add              r2, r6, r2  ; r2  columna + (-d
+   49 00000088 E0862002        add              r2, r6, r2  ; r2  columna + (-d
                                                             eltas_columna[i])
-   51 0000008C         ;and r2,r2,#0xFF MIRARLUEGO
-   52 0000008C E1A03007        mov              r3, r7      ;  r3  color (PROBA
+   50 0000008C E1A03007        mov              r3, r7      ;  r3  color (PROBA
                                                             R A QUITARLO)
-   53 00000090 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
-rm 
+   51 00000090 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
+rm_opt 
                                                             ; llamada con la in
                                                             versa
-   54 00000094 E8BD0006        ldmia            r13!,{r1-r2} ; desapilamos dfil
+   52 00000094 E8BD0006        ldmia            r13!,{r1-r2} ; desapilamos dfil
                                                             a[i] y dcolum[i]
-   55 00000098 E08AA000        add              r10, r10, r0 ; long_linea = lon
+   53 00000098 E08AA000        add              r10, r10, r0 ; long_linea = lon
                                                             g_linea + long_line
                                                             a_actual
-   56 0000009C E35A0004        cmp              r10, #4     ; long_linea == K_s
+   54 0000009C E35A0004        cmp              r10, #4     ; long_linea == K_s
                                                             ize
-   57 000000A0 A3A09001        movge            r9, #1      ; linea = True
-   58 000000A4 E2888001        add              r8, r8, #1  ; i = i + 1
-   59 000000A8 EAFFFFDE        b                ini_bucle
-   60 000000AC         fin
-   61 000000AC E1A00009        mov              r0, r9      ; r0  linea
-   62 000000B0 E8BD4FF0        ldmia            r13!, {r4-r10, fp, lr}
-   63 000000B4 E12FFF1E        bx               r14
-   64 000000B8                 END
+   55 000000A0 A3A09001        movge            r9, #1      ; linea = True
+   56 000000A4 E2888001        add              r8, r8, #1  ; i = i + 1
+   57 000000A8 EAFFFFDE        b                ini_bucle
+   58 000000AC         fin
+   59 000000AC E1A00009        mov              r0, r9      ; r0  linea
+   60 000000B0 E8BD4FF0        ldmia            r13!, {r4-r10, fp, lr}
+   61 000000B4 E12FFF1E        bx               r14
+   62 000000B8                 END
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
@@ -169,7 +167,7 @@ fin 000000AC
 
 Symbol: fin
    Definitions
-      At line 60 in file conecta_K_hay_linea_arm_arm.s
+      At line 58 in file conecta_K_hay_linea_arm_arm.s
    Uses
       At line 26 in file conecta_K_hay_linea_arm_arm.s
       At line 28 in file conecta_K_hay_linea_arm_arm.s
@@ -181,7 +179,7 @@ Symbol: ini_bucle
    Definitions
       At line 24 in file conecta_K_hay_linea_arm_arm.s
    Uses
-      At line 59 in file conecta_K_hay_linea_arm_arm.s
+      At line 57 in file conecta_K_hay_linea_arm_arm.s
 Comment: ini_bucle used once
 4 symbols
 
@@ -190,14 +188,14 @@ Comment: ini_bucle used once
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 External symbols
 
-conecta_K_buscar_alineamiento_arm 00000000
+conecta_K_buscar_alineamiento_arm_opt 00000000
 
-Symbol: conecta_K_buscar_alineamiento_arm
+Symbol: conecta_K_buscar_alineamiento_arm_opt
    Definitions
       At line 6 in file conecta_K_hay_linea_arm_arm.s
    Uses
       At line 38 in file conecta_K_hay_linea_arm_arm.s
-      At line 53 in file conecta_K_hay_linea_arm_arm.s
+      At line 51 in file conecta_K_hay_linea_arm_arm.s
 
 1 symbol
 342 symbols in table

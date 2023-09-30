@@ -262,3 +262,4 @@ void conecta_K_jugar(void){
 		entrada_inicializar(entrada);
 	}
 }*/
+
