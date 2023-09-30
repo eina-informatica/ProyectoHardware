@@ -17,12 +17,12 @@ rm
    10 0000000C E3510000        cmp              r1, #0
    11 00000010 BA000020        blt              fin         ; si fila < 0
    12 00000014 E3510007        cmp              r1, #7
-   13 00000018 CA00001E        bgt              fin         ; si fila > 7
+   13 00000018 AA00001E        bge              fin         ; si fila >= 7
    14 0000001C         ; comprobamos si la columna es v?lida
    15 0000001C E3520000        cmp              r2, #0
    16 00000020 BA00001C        blt              fin         ; si columna < 1
    17 00000024 E3520007        cmp              r2, #7
-   18 00000028 CA00001A        bgt              fin         ; si columna > 7
+   18 00000028 AA00001A        bge              fin         ; si columna >= 7
    19 0000002C         ; si la celda se encuentra en el tablero, obtenemos su v
                        alor
    20 0000002C E3A08000        mov              r8,#0       ; inicializamos r8 

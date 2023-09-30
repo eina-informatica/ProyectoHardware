@@ -159,7 +159,7 @@ int conecta_K_verificar_K_en_linea(TABLERO *t, uint8_t fila, uint8_t columna, ui
 const int testbench[9][4] = {
 	{1, 2, 3, 1},
   {1, 2, 2, 2},
-	{1, 1, 5, 2},
+	{1, 7, 7, 2},
 	{1, 2, 4, 1},
 	{1, 3, 3, 2},
 	{1, 1, 1, 1},

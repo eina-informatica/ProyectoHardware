@@ -17,12 +17,12 @@ bucle
         cmp r1, #0
         blt fin ; si fila < 0
         cmp r1, #7
-        bgt fin ; si fila > 7
+        bge fin ; si fila >= 7
         ; comprobamos si la columna es v?lida
         cmp r2, #0
         blt fin ; si columna < 1
         cmp r2, #7
-        bgt fin ; si columna > 7
+        bge fin ; si columna >= 7
         ; si la celda se encuentra en el tablero, obtenemos su valor
         cmp r8,#6
         beq fin

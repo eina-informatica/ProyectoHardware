@@ -28,12 +28,12 @@ rm_opt
    17 0000001C E3510000        cmp              r1, #0
    18 00000020 BA000019        blt              fin         ; si fila < 0
    19 00000024 E3510007        cmp              r1, #7
-   20 00000028 CA000017        bgt              fin         ; si fila > 7
+   20 00000028 AA000017        bge              fin         ; si fila >= 7
    21 0000002C         ; comprobamos si la columna es v?lida
    22 0000002C E3520000        cmp              r2, #0
    23 00000030 BA000015        blt              fin         ; si columna < 1
    24 00000034 E3520007        cmp              r2, #7
-   25 00000038 CA000013        bgt              fin         ; si columna > 7
+   25 00000038 AA000013        bge              fin         ; si columna >= 7
    26 0000003C         ; si la celda se encuentra en el tablero, obtenemos su v
                        alor
    27 0000003C E3580006        cmp              r8,#6
