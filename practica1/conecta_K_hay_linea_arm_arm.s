@@ -1,6 +1,7 @@
 		AREA datos, DATA, READWRITE
 dfila 	DCB 0x00, 0xFF, 0xFF, 0x01
 dcolum	DCB 0xFF, 0x00, 0xFF, 0xFF
+ksize   EQU 0x4
 		AREA codigo, CODE, READONLY
 		PRESERVE8
 		IMPORT conecta_K_buscar_alineamiento_arm_opt
@@ -38,7 +39,7 @@ ini_bucle
     bl conecta_K_buscar_alineamiento_arm_opt
     ldmia r13!,{r1-r2} ; desapilamos dfila[i] y dcolum[i]
     mov r10, r0 ; long_linea = long_linea + long_linea_actual
-    cmp r10, #4 ; long_linea == K_size
+    cmp r10, #ksize ; long_linea == K_size
     movge r9, #1 ; linea = True
     bge fin
     rsb r1 ,r1, #0 ; dfila[i] = -dfila[i]
