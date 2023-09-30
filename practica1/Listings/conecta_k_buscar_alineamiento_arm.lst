@@ -43,9 +43,9 @@ rm
    32 00000054 E0816081        add              r6,r1,r1,LSL #1
    33 00000058 E280702A        add              r7,r0,#0x0000002A ;buscar en la
                                                              parte de abajo del
-                                                             tablero (dnde se i
-                                                            ndexan los colores)
-                                                            
+                                                             tablero (donde se 
+                                                            indexan los colores
+                                                            )
    34 0000005C E0877086        add              r7,r7,r6,LSL #1
    35 00000060 E7D77008        ldrb             r7,[r7,r8]  ; valor del color
    36 00000064 E2077003        and              r7,r7,#0x03
