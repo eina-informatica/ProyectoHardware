@@ -7,7 +7,7 @@ conecta_K_buscar_alineamiento_arm_opt
         mov ip, sp
         stmdb r13!, {r4-r9, fp, lr}
         sub fp, ip, #4
-        ; comprobamos si la fila es v?lida
+        ; comprobamos si la fila es válida
 		ldrsb r4, [fp, #4] ; r4  deltas_fila[i]
 		ldrsb r5, [fp, #8] ; r5  deltas_columna[i]
 		mov r9, #0 ; r9  long_linea = 0
@@ -18,9 +18,9 @@ bucle
         blt fin ; si fila < 0
         cmp r1, #7
         bge fin ; si fila >= 7
-        ; comprobamos si la columna es v?lida
+        ; comprobamos si la columna es válida
         cmp r2, #0
-        blt fin ; si columna < 1
+        blt fin ; si columna < 0
         cmp r2, #7
         bge fin ; si columna >= 7
         ; si la celda se encuentra en el tablero, obtenemos su valor
@@ -30,7 +30,7 @@ bucle
         add r7,r0,r6,LSL #1
         ldrb r7,[r7,r8]
         add r8,r8,#1 ;cont++
-        ; comprobamos si esta tu celda
+        ; comprobamos si está la celda
         cmp r7,r2
         bne bucle
         sub r8,r8,#1  ; cont-- para recuperar el valor correcto

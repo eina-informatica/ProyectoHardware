@@ -34,7 +34,7 @@ ARM Macro Assembler    Page 1
                                                             
    24 00000024 E3A0A000        mov              r10, #0     ; r10  long_linea =
                                                              0
-   25 00000028         ini_bucle
+   25 00000028         bucle
    26 00000028 E3580004        cmp              r8, #4      ; i < numDeltas
    27 0000002C CA00001E        bgt              fin
    28 00000030 E3590001        cmp              r9, #1      ; linea == True
@@ -96,7 +96,7 @@ ARM Macro Assembler    Page 2
                                                             ize
    56 000000A0 A3A09001        movge            r9, #1      ; linea = True
    57 000000A4 E2888001        add              r8, r8, #1  ; i = i + 1
-   58 000000A8 EAFFFFDE        b                ini_bucle
+   58 000000A8 EAFFFFDE        b                bucle
    59 000000AC         fin
    60 000000AC E1A00009        mov              r0, r9      ; r0  linea
    61 000000B0 E8BD4FF0        ldmia            r13!, {r4-r10, fp, lr}
@@ -146,6 +146,14 @@ Comment: dfila used once
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
+bucle 00000028
+
+Symbol: bucle
+   Definitions
+      At line 25 in file conecta_K_hay_linea_arm_c.s
+   Uses
+      At line 58 in file conecta_K_hay_linea_arm_c.s
+Comment: bucle used once
 codigo 00000000
 
 Symbol: codigo
@@ -172,14 +180,6 @@ Symbol: fin
       At line 29 in file conecta_K_hay_linea_arm_c.s
       At line 44 in file conecta_K_hay_linea_arm_c.s
 
-ini_bucle 00000028
-
-Symbol: ini_bucle
-   Definitions
-      At line 25 in file conecta_K_hay_linea_arm_c.s
-   Uses
-      At line 58 in file conecta_K_hay_linea_arm_c.s
-Comment: ini_bucle used once
 4 symbols
 
 

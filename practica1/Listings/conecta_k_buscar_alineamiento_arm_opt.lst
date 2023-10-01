@@ -14,7 +14,7 @@ rm_opt
     7 00000000 E1A0C00D        mov              ip, sp
     8 00000004 E92D4BF0        stmdb            r13!, {r4-r9, fp, lr}
     9 00000008 E24CB004        sub              fp, ip, #4
-   10 0000000C         ; comprobamos si la fila es v?lida
+   10 0000000C         ; comprobamos si la fila es válida
    11 0000000C E1DB40D4        ldrsb            r4, [fp, #4] ; r4  deltas_fila[
                                                             i]
    12 00000010 E1DB50D8        ldrsb            r5, [fp, #8] ; r5  deltas_colum
@@ -29,9 +29,9 @@ rm_opt
    18 00000020 BA000019        blt              fin         ; si fila < 0
    19 00000024 E3510007        cmp              r1, #7
    20 00000028 AA000017        bge              fin         ; si fila >= 7
-   21 0000002C         ; comprobamos si la columna es v?lida
+   21 0000002C         ; comprobamos si la columna es válida
    22 0000002C E3520000        cmp              r2, #0
-   23 00000030 BA000015        blt              fin         ; si columna < 1
+   23 00000030 BA000015        blt              fin         ; si columna < 0
    24 00000034 E3520007        cmp              r2, #7
    25 00000038 AA000013        bge              fin         ; si columna >= 7
    26 0000003C         ; si la celda se encuentra en el tablero, obtenemos su v
@@ -42,7 +42,7 @@ rm_opt
    30 00000048 E0807086        add              r7,r0,r6,LSL #1
    31 0000004C E7D77008        ldrb             r7,[r7,r8]
    32 00000050 E2888001        add              r8,r8,#1    ;cont++
-   33 00000054         ; comprobamos si esta tu celda
+   33 00000054         ; comprobamos si está la celda
    34 00000054 E1570002        cmp              r7,r2
    35 00000058 1AFFFFEF        bne              bucle
    36 0000005C E2488001        sub              r8,r8,#1    ; cont-- para recup

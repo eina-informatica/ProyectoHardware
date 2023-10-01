@@ -168,6 +168,12 @@ const int testbench[9][4] = {
 	{1, 5, 5, 2}
 };
 
+/*const int testbench[3][4] = {
+	{1, 4, 4, 2},
+	{1, 7, 7, 1},
+	{1, 8, 8, 1}
+};*/
+
 uint8_t test_index = 0;
 
 void test_entrada(volatile uint8_t entrada[ALIGN_8]) {

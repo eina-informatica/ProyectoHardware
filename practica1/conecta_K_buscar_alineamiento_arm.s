@@ -6,14 +6,14 @@ conecta_K_buscar_alineamiento_arm
         mov ip, sp
         stmdb r13!, {r4-r8, fp, lr}
         sub fp, ip, #4
-        ; comprobamos si la fila es v?lida
+        ; comprobamos si la fila es válida
         cmp r1, #0
         blt fin ; si fila < 0
         cmp r1, #7
         bge fin ; si fila >= 7
-        ; comprobamos si la columna es v?lida
+        ; comprobamos si la columna es válida
         cmp r2, #0
-        blt fin ; si columna < 1
+        blt fin ; si columna < 0
         cmp r2, #7
         bge fin ; si columna >= 7
         ; si la celda se encuentra en el tablero, obtenemos su valor
@@ -30,11 +30,11 @@ bucle
         bne bucle
         sub r8,r8,#1  ; cont-- para recuperar el valor correcto
         add r6,r1,r1,LSL #1
-        add r7,r0,#0x0000002A ;buscar en la parte de abajo del tablero (donde se indexan los colores)
+        add r7,r0,#0x0000002A ; buscar en la parte de abajo del tablero (donde se indexan los colores)
         add r7,r7,r6,LSL #1
         ldrb r7,[r7,r8] ; valor del color
         and r7,r7,#0x03
-        cmp r7,r3 ;comparamos el color con el parametro
+        cmp r7,r3 ; comparamos el color con el parámetro
         bne fin
         ldrsb r4, [fp, #4] ; r4 - deltas_fila[i]
         add r1, r1, r4 ; r1 - fila + deltas_fila[i]

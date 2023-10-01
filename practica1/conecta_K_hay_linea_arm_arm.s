@@ -17,12 +17,12 @@ conecta_K_hay_linea_arm_arm
     mov r6, r2 ; r6  columna
     mov r7, r3 ; r7  color
     ; variables locales
-    ; mov r12 ,#4 ; r12  K_size = 4   no me deja pq r11 esta reservado para el fp
+    ; mov r12 ,#4 ; r12  K_size = 4  no me deja pq r11 esta reservado para el fp
     ; mov r11, #4; r11  numDeltas = 4
     mov r8, #0 ; r8  i = 0
     mov r9, #0 ; r9  linea = FALSE
     mov r10, #0 ; r10  long_linea = 0
-ini_bucle
+bucle
     cmp r8, #4 ; i < numDeltas
     bgt fin
     cmp r9, #1 ; linea == True
@@ -55,7 +55,7 @@ ini_bucle
     cmp r10, #4 ; long_linea == K_size
     movge r9, #1 ; linea = True
     add r8, r8, #1 ; i = i + 1
-    b ini_bucle
+    b bucle
 fin
     mov r0, r9 ; r0  linea
     ldmia r13!, {r4-r10, fp, lr}

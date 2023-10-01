@@ -13,14 +13,14 @@ rm
     6 00000000 E1A0C00D        mov              ip, sp
     7 00000004 E92D49F0        stmdb            r13!, {r4-r8, fp, lr}
     8 00000008 E24CB004        sub              fp, ip, #4
-    9 0000000C         ; comprobamos si la fila es v?lida
+    9 0000000C         ; comprobamos si la fila es válida
    10 0000000C E3510000        cmp              r1, #0
    11 00000010 BA000020        blt              fin         ; si fila < 0
    12 00000014 E3510007        cmp              r1, #7
    13 00000018 AA00001E        bge              fin         ; si fila >= 7
-   14 0000001C         ; comprobamos si la columna es v?lida
+   14 0000001C         ; comprobamos si la columna es válida
    15 0000001C E3520000        cmp              r2, #0
-   16 00000020 BA00001C        blt              fin         ; si columna < 1
+   16 00000020 BA00001C        blt              fin         ; si columna < 0
    17 00000024 E3520007        cmp              r2, #7
    18 00000028 AA00001A        bge              fin         ; si columna >= 7
    19 0000002C         ; si la celda se encuentra en el tablero, obtenemos su v
@@ -41,16 +41,17 @@ rm
                                                             erar el valor corre
                                                             cto
    32 00000054 E0816081        add              r6,r1,r1,LSL #1
-   33 00000058 E280702A        add              r7,r0,#0x0000002A ;buscar en la
-                                                             parte de abajo del
-                                                             tablero (donde se 
-                                                            indexan los colores
-                                                            )
+   33 00000058 E280702A        add              r7,r0,#0x0000002A ; buscar en l
+                                                            a parte de abajo de
+                                                            l tablero (donde se
+                                                             indexan los colore
+                                                            s)
    34 0000005C E0877086        add              r7,r7,r6,LSL #1
    35 00000060 E7D77008        ldrb             r7,[r7,r8]  ; valor del color
    36 00000064 E2077003        and              r7,r7,#0x03
-   37 00000068 E1570003        cmp              r7,r3       ;comparamos el colo
-                                                            r con el parametro
+   37 00000068 E1570003        cmp              r7,r3       ; comparamos el col
+                                                            or con el parámetro
+                                                            
    38 0000006C 1A000009        bne              fin
    39 00000070 E1DB40D4        ldrsb            r4, [fp, #4] ; r4 - deltas_fila
                                                             [i]
@@ -62,13 +63,13 @@ rm
                                                             ltas_columna[i]
    43 00000080 E92D0030        stmdb            r13!, {r4-r5} ; se apilan los d
                                                             eltas para la sigui
-                                                            ente llamada recurs
 
 
 
 ARM Macro Assembler    Page 2 
 
 
+                                                            ente llamada recurs
                                                             iva
    44 00000084 EBFFFFFE        bl               conecta_K_buscar_alineamiento_a
 rm
