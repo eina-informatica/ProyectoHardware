@@ -1,16 +1,16 @@
 Dependencies for Project 'conectaK_2023', Target 'Target 1': (DO NOT MODIFY !)
 F (.\Startup.s)(0x6517EA5B)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
-F (.\conecta_K_buscar_alineamiento_arm.s)(0x651978D1)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_buscar_alineamiento_arm.lst --xref -o .\objects\conecta_k_buscar_alineamiento_arm.o --depend .\objects\conecta_k_buscar_alineamiento_arm.d)
+F (.\conecta_K_buscar_alineamiento_arm.s)(0x65198A44)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_buscar_alineamiento_arm.lst --xref -o .\objects\conecta_k_buscar_alineamiento_arm.o --depend .\objects\conecta_k_buscar_alineamiento_arm.d)
 F (.\conecta_K_hay_linea_arm_c.s)(0x65197882)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_hay_linea_arm_c.lst --xref -o .\objects\conecta_k_hay_linea_arm_c.o --depend .\objects\conecta_k_hay_linea_arm_c.d)
 F (.\conecta_K_hay_linea_arm_arm.s)(0x6519788C)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_hay_linea_arm_arm.lst --xref -o .\objects\conecta_k_hay_linea_arm_arm.o --depend .\objects\conecta_k_hay_linea_arm_arm.d)
-F (.\conecta_K_buscar_alineamiento_arm_opt.s)(0x651978CC)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_buscar_alineamiento_arm_opt.lst --xref -o .\objects\conecta_k_buscar_alineamiento_arm_opt.o --depend .\objects\conecta_k_buscar_alineamiento_arm_opt.d)
+F (.\conecta_K_buscar_alineamiento_arm_opt.s)(0x65198A4D)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\conecta_k_buscar_alineamiento_arm_opt.lst --xref -o .\objects\conecta_k_buscar_alineamiento_arm_opt.o --depend .\objects\conecta_k_buscar_alineamiento_arm_opt.d)
 F (.\celda.h)(0x6517EA5B)()
 F (.\conecta_K_2023.h)(0x65184E40)()
 F (.\entrada.h)(0x6517EA5B)()
 F (.\tablero.h)(0x6517EA5B)()
 F (.\config_conecta_K.h)(0x6517EA5B)()
 F (.\tablero_test.h)(0x6517EA5B)()
-F (.\conecta_K_2023.c)(0x651964D1)(--c99 --gnu -c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips-D__UVISION_VERSION="526"-o .\objects\conecta_k_2023.o --omf_browse .\objects\conecta_k_2023.crf --depend .\objects\conecta_k_2023.d)
+F (.\conecta_K_2023.c)(0x65197934)(--c99 --gnu -c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork --split_sections-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips-D__UVISION_VERSION="526"-o .\objects\conecta_k_2023.o --omf_browse .\objects\conecta_k_2023.crf --depend .\objects\conecta_k_2023.d)
 I (conecta_K_2023.h)(0x65184E40)
 I (C:\Keil_v5\ARM\ARMCC\include\inttypes.h)(0x599F2F9E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F2F9E)
