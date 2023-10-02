@@ -16,6 +16,22 @@ void temporizador_hal_iniciar(void){
     VICVectAddr1 = (unsigned long) timer1_ISR;  
 }
 
+void temporizador_empezar(void) {
+    T0TCR = 1;
+    VICIntEnable = VICIntEnable | 0x10;
+    T1TCR = 1;
+    VICIntEnable = VICIntEnable | 0x20;
+}
+
+uint32_t temporizador_leer(void) {
+    return timer1_int_count * 1000 + T1TC;  //número de interrupciones (una por ms) + tiempo contado en us desde la última interrupción 
+}
+uint32_t temporizador_parar(void) {
+    T1TCR = 3;
+    T1TCR = 0;
+
+return temporizador_leer();
+}
 void temporizador_hal_empezar() {
 
   
