@@ -183,7 +183,7 @@ void test_entrada(volatile uint8_t entrada[ALIGN_8]) {
 		test_index++;
 }
 
-void conecta_K_jugar(void){
+/*void conecta_K_jugar(void){
 	// new, row, column, colour, padding to prevent desalinating to 8 bytes
 	static volatile uint8_t entrada[8] = {0, 0, 0, 0, 0, 0, 0, 0 }; //jugada, fila, columna, color, ...
 	// 8x8 intentando que este alineada para que se vea bien en memoria
@@ -224,10 +224,10 @@ void conecta_K_jugar(void){
 		//else: fuera de rango fila, columna o color
 		entrada_inicializar(entrada);
 	}
-}
+}*/
 
 // Función original
-/*void conecta_K_jugar(void){
+void conecta_K_jugar(void){
 	// new, row, column, colour, padding to prevent desalinating to 8 bytes
 	static volatile uint8_t entrada[8] = {0, 0, 0, 0, 0, 0, 0, 0 }; //jugada, fila, columna, color, ...
 	// 8x8 intentando que este alineada para que se vea bien en memoria
@@ -268,5 +268,5 @@ void conecta_K_jugar(void){
 		//else: fuera de rango fila, columna o color
 		entrada_inicializar(entrada);
 	}
-}*/
+}
 
