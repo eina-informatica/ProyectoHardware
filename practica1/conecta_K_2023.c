@@ -73,10 +73,10 @@ conecta_K_hay_linea_c_arm(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t col
          continue;
        }
        // buscar sentido inverso
-		/*	long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
+			 /*	long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
 			 */
-       long_linea += conecta_K_buscar_alineamiento_c(t, fila-deltas_fila[i],
+       long_linea += conecta_K_buscar_alineamiento_arm(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
 
 
@@ -156,7 +156,7 @@ uint8_t conecta_K_verificar_K_en_linea(TABLERO *t, uint8_t fila, uint8_t columna
 	return resultado_c_c;
 }
 
-const int testbench[9][4] = {
+/*const int testbench[9][4] = {
 	{1, 2, 3, 1},
   {1, 2, 2, 2},
 	{1, 7, 7, 2},
@@ -166,6 +166,18 @@ const int testbench[9][4] = {
 	{1, 4, 4, 2},
 	{1, 2, 5, 1},
 	{1, 5, 5, 2}
+};*/
+
+const int testbench[9][4] = {
+	{1, 1, 1, 1},
+  {1, 1, 2, 2},
+	{1, 1, 3, 1},
+	{1, 1, 4, 2},
+	{1, 1, 5, 1},
+	{1, 1, 6, 2},
+	{1, 1, 7, 1},
+	{1, 2, 5, 2},
+	{1, 5, 5, 1}
 };
 
 /*const int testbench[3][4] = {
@@ -183,7 +195,7 @@ void test_entrada(volatile uint8_t entrada[ALIGN_8]) {
 		test_index++;
 }
 
-/*void conecta_K_jugar(void){
+void conecta_K_jugar(void){
 	// new, row, column, colour, padding to prevent desalinating to 8 bytes
 	static volatile uint8_t entrada[8] = {0, 0, 0, 0, 0, 0, 0, 0 }; //jugada, fila, columna, color, ...
 	// 8x8 intentando que este alineada para que se vea bien en memoria
@@ -224,10 +236,10 @@ void test_entrada(volatile uint8_t entrada[ALIGN_8]) {
 		//else: fuera de rango fila, columna o color
 		entrada_inicializar(entrada);
 	}
-}*/
+}
 
 // Función original
-void conecta_K_jugar(void){
+/*void conecta_K_jugar(void){
 	// new, row, column, colour, padding to prevent desalinating to 8 bytes
 	static volatile uint8_t entrada[8] = {0, 0, 0, 0, 0, 0, 0, 0 }; //jugada, fila, columna, color, ...
 	// 8x8 intentando que este alineada para que se vea bien en memoria
@@ -268,5 +280,5 @@ void conecta_K_jugar(void){
 		//else: fuera de rango fila, columna o color
 		entrada_inicializar(entrada);
 	}
-}
+}*/
 
