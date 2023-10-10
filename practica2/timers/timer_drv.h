@@ -1,3 +1,5 @@
+#include "timer_hal.h"
+#include eint.h
 // Funciones
 void temporizador_drv_iniciar();
 void temporizador_drv_empezar();
