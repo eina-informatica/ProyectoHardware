@@ -1,11 +1,9 @@
 #include "planificador.h"
-#include "colillas/cola.h"
-#include "io_reserva.h"
-#include "gpio_hal.h"
 
-//Se encargar√° de iniciar la cola 
+
+//Se encargar· de iniciar la cola 
 void planificador_iniciar(){
-    gpio_hal_pin_dir_t pin = GPIO_OVERFLOW;
+    /*gpio_hal_pin_dir_t pin = GPIO_OVERFLOW;
     FIFO_inicializar(pin);
     EVENTO_T* Id_Evento;
     uint32_t* auxData;
@@ -16,6 +14,5 @@ void planificador_iniciar(){
             FIFO_extraer(Id_Evento,auxData);
         }
         
-    }
-    
+    }*/
 }

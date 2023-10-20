@@ -7,12 +7,10 @@ typedef enum {
     GPIO_HAL_PIN_DIR_OUTPUT
 } gpio_hal_pin_dir_t;
 
-/*typedef struct {
-    uint8_t port;   // Número de puerto
+typedef struct {
+  uint8_t port;   // Número de puerto
     uint8_t pin;    // Número de pin en el puerto
-} GPIO_HAL_PIN_T;*/
-
-typedef uint8_t GPIO_HAL_PIN_T;
+} GPIO_HAL_PIN_T;
 
 __inline void gpio_hal_iniciar();
 
