@@ -1,5 +1,5 @@
 #include <LPC210X.H>
-#include eint.h
+
 #include <stdint.h>
 
 // Constante que permite convertir de ticks a microsegundos
@@ -9,4 +9,4 @@
 void temporizador_hal_iniciar();
 void temporizador_hal_empezar();
 uint64_t temporizador_hal_leer();
-uint64_t temporizador_hal_parar();
+uint64_t temporizador_hal_parar();  

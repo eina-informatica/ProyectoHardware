@@ -1,4 +1,4 @@
-#include "io_reserva.h"
+#include "../io_reserva.h"
 
 #define SIZE 32
 /*Definición del tipo de datos EVENTO_T: Conjunto de eventos posibles. En
@@ -6,6 +6,23 @@ el fichero de cabecera se incluirá el tipo de datos y el conjunto de
 posibles eventos identificados con nombre humano. Reservemos el ID
 VOID con valor cero para inicializar la cola.*/
 
+enum EVENTO_T {
+    Timer0,
+    //se iran añadiendo nuevos
+};
+
+struct ITEM
+{
+    EVENTO_T id;
+    uint32_t auxDATA;
+};
+
+struct ITEM cola[SIZE];
+int numV[max_Eventos];
+uint8_t frente;
+uint8_t final;
+
+#define max_Eventos 10
 
  /*Inicialización de la
 cola. Se le pasa como parámetro el pin del GPIO utilizado para marcar
@@ -16,7 +33,7 @@ guardará en la cola el evento. El campo ID_evento, que permita
 identificar el evento (p.e. qué interrupción ha saltado) y el campo
 auxData en caso de que el evento necesite pasar información extra.*/
 void FIFO_encolar(EVENTO_T ID_evento, uint32_t auxData);
-/*Sihay eventos sin procesar, devuelve un valor distinto de cero y el evento
+/*Si hay eventos sin procesar, devuelve un valor distinto de cero y el evento
 más antiguo sin procesar por referencia. Cero indicará que la cola está
 vacía y no se ha devuelto ningún evento.*/
 uint8_t FIFO_extraer(EVENTO_T *ID_evento, uint32_t* auxData);
