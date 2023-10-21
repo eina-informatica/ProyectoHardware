@@ -1,0 +1,9 @@
+.\planificador.o: planificador.c
+.\planificador.o: planificador.h
+.\planificador.o: cola.h
+.\planificador.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\planificador.o: gpio_hal.h
+.\planificador.o: C:\Keil_v5\ARM\INC\Philips\LPC210X.H
+.\planificador.o: io_reserva.h
+.\planificador.o: io_reserva.h
+.\planificador.o: gpio_hal.h

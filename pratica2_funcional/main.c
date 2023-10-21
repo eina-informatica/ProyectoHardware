@@ -11,7 +11,7 @@ void wait (void)  {                         /* wait function */
   unsigned int i;
 
   i = timer0_read_int_count(); // reads the number of previous timer IRQs
-  while ((i + 10) != timer0_read_int_count());              /* waits for 10 interrupts, i.e. 50ms */
+  while ((i + 10) != timer0_read_int_count());  /* waits for 10 interrupts, i.e. 50ms */
 }
 
 int main (void) {
