@@ -14,7 +14,7 @@ void FIFO_inicializar(GPIO_HAL_PIN_T pin_overflow) {
     gpio_hal_escribir(pin_overflow, GPIO_OVERFLOW_BITS, 0);
 }
 
-// Funci�n para encolar un evento
+// Función para encolar un evento
 void FIFO_encolar(EVENTO_T ID_evento, uint32_t auxData) {
     if ((final + 1) % SIZE != frente) {
         cola[final].id =ID_evento;
@@ -27,7 +27,7 @@ void FIFO_encolar(EVENTO_T ID_evento, uint32_t auxData) {
     }
 }
 
-// Funci�n para extraer un evento de la cola
+// Función para extraer un evento de la cola
 uint8_t FIFO_extraer(EVENTO_T *ID_evento, uint32_t *auxData) {
     if (frente != final) {
         *ID_evento = cola[frente].id;
@@ -39,7 +39,7 @@ uint8_t FIFO_extraer(EVENTO_T *ID_evento, uint32_t *auxData) {
     }
 }
 
-// Funci�n para obtener estad�sticas de eventos
+// Función para obtener estadísticas de eventos
 uint32_t FIFO_estadisticas(EVENTO_T ID_evento) {
     return numV[ID_evento];
 }

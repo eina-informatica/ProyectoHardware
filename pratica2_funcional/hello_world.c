@@ -2,21 +2,17 @@
 
 int pin, size, cont;
 
-void hello_world_inicializar() {
+void hello_world_inicializar(void) {
     pin = GPIO_HELLO_WORLD;
     size = GPIO_HELLO_WORLD_BITS;
-    cont = 0;
+    cont = pin;
+    gpio_hal_sentido(0, 8, GPIO_HAL_PIN_DIR_OUTPUT);
+    gpio_hal_sentido(0, 8, GPIO_HAL_PIN_DIR_INPUT);
 }
 
-void hello_world_tick_tack() {
-    gpio_hal_sentido(0, 8,GPIO_HAL_PIN_DIR_OUTPUT);
-    gpio_hal_sentido(0, 8,GPIO_HAL_PIN_DIR_INPUT);
-    for (cont = pin; i < size; cont++)
-    {
-        temporizador_drv_reloj(10, NULL, NULL);
-        wait();
+void hello_world_tick_tack(void) {
+    if (cont < size ){
         gpio_hal_escribir(cont, 1, 1);
         cont++;
     }
-    gpio_hal_escribir(pin, size, 0);
 }

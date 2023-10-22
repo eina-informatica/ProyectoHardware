@@ -1,6 +1,6 @@
 #include "gpio_hal.h"
 
-__inline void gpio_hal_iniciar(){
+__inline void gpio_hal_iniciar(void){
     PINSEL0=0;
     PINSEL1=0; 
 }

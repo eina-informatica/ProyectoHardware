@@ -31,19 +31,18 @@ uint64_t temporizador_hal_leer() {
 		//return count_timer;
 }
 
+
 // Function to stop the timer and return the elapsed time in ticks
 uint64_t temporizador_hal_parar() {
     T0TCR = 2; // When one, the Timer Counter and the Prescale Counter are synchronously reset 
     T0TCR = 0; // Disable the timer
     return temporizador_hal_leer(); // Return the elapsed time
 }
-
 void timer0_ISR (void) __irq {
     count_timer++;
     T0IR = 1; // Clear interrupt flag
     VICVectAddr = 0; // Acknowledge Interrupt
 }
-
 unsigned int timer0_read_int_count(void){
 	return count_timer;
 };
@@ -53,29 +52,29 @@ void (*callback_func)(void);  // Variable global para almacenar la función de d
 
 void timer1_ISR() __irq {
     // Llamamos a la función si no es nula
-    if (callback_func != null) {
+    if (callback_func != NULL) {
         callback_func();
     }
 }
 
 void temporizador_hal_reloj(uint32_t periodo, void (*funcion_callback)()) {
-    // Almacena la función de devolución en la variable global
-    if (periodo == 0)
-    {
-        T1TCR = 2; // When one, the Timer Counter and the Prescale Counter are synchronously reset 
-        T1TCR = 0; // Disable the timer
-    }else{
-        callback_func = funcion_callback;
-        // Configure the timer
-        T1MCR = 3; //bit 0 Interrupt on MR0: an interrupt is generated when MR0 matches the value in the TC
-                    // bit 2 Stop on MR0: the TC and PC will be stopped and TCR[0] will be set to 0 if MR0 matches the TC.
-        T1MR0 = periodo*1000;
-        VICVectAddr1 = (unsigned long) timer1_ISR; // set interrupt vector in 0
-        VICVectCntl1 = 0x20 | 5;  
-        //inicializar contador de interrupciones
-        T1TCR = 1; // Enable the timer
-        VICIntEnable = VICIntEnable | 0x00000011; // Enable Timer0 Interrupt
-    }
+  // Almacena la función de devolución en la variable global
+  if (periodo==0)
+  {
+    T1TCR = 2; // When one, the Timer Counter and the Prescale Counter are synchronously reset 
+    T1TCR = 0; // Disable the timer
+  }else{
+    callback_func = funcion_callback;
+      T1MCR = 3; //bit 0 Interrupt on MR0: an interrupt is generated when MR0 matches the value in the TC
+        // bit 2 Stop on MR0: the TC and PC will be stopped and TCR[0] will be set to 0 if MR0 matches the TC.
+      T1MR0 = periodo;
+      VICVectAddr1 = (unsigned long) timer1_ISR; // set interrupt vector in 0
+      VICVectCntl1 = 0x20 | 5;  
+      //inicializar contador de interrupciones
+      T1TCR = 1; // Enable the timer
+      VICIntEnable = VICIntEnable | 0x00000011; // Enable Timer0 Interrupt
+  }  
+           
 }
 
 /*

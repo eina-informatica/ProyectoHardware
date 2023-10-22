@@ -1,6 +1,7 @@
 #include "cola.h"
 #include "io_reserva.h"
 #include "gpio_hal.h"
- //Se encargará de iniciar la cola 
- 
-void planificador_inicializar(void);
+#include "hello_world.h"
+#include <stddef.h>
+
+void planificador(void);

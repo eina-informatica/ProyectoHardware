@@ -2,7 +2,7 @@
 
 EVENTO_T evento_temp;
 
-void (*callback_func_temp)(EVENTO_T);
+void (*callback_func_temp)(EVENTO_T, uint32_t);
 
 void temporizador_drv_iniciar(){
     temporizador_hal_iniciar();
@@ -22,7 +22,7 @@ uint64_t temporizador_drv_parar(){
 
 void aux_callback() {
     if (callback_func_temp != NULL) {
-        callback_func_temp(evento_temp);
+        callback_func_temp(evento_temp, 0);
     }
 }
 

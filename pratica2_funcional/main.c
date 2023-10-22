@@ -1,23 +1,22 @@
                   
 #include <LPC210x.H>                       /* LPC210x definitions */
-#include "Timer.h"
+/*#include "Timer.h"
 #include "Power_management.h"
-#include "boton_eint0.h"
-#include "gpio_hal.c"
-#include "gpio_hal.h"
+#include "boton_eint0.h"*/
+#include "planificador.h"
 
 // Nota: wait es una espera activa. Se puede eliminar poniendo el procesador en modo iddle. Probad a hacerlo
-void wait (void)  {                         /* wait function */
+/*void wait (void)  { // wait function
 	unsigned int i;
 
 	i = timer0_read_int_count(); // reads the number of previous timer IRQs
-	while ((i + 10) != timer0_read_int_count());  /* waits for 10 interrupts, i.e. 50ms */
-}
+	while ((i + 10) != timer0_read_int_count());  // waits for 10 interrupts, i.e. 50ms
+}*/
 
 int main (void) {
- 	unsigned int j; /* LED var */
-	unsigned int total;
-	eint0_init(); // activates EINT0 interrupts
+	planificador();
+ 	
+	/*eint0_init(); // activates EINT0 interrupts
 	// Nota la gesti�n del GPIO vosotros la debe�s hacer en GPIO.c no en el main o en el reversi
 	//IODIR 		= 0x00FF0000;					//Set LED pins as outputs 
 	gpio_hal_sentido(16, 8,GPIO_HAL_PIN_DIR_OUTPUT);
@@ -35,23 +34,24 @@ int main (void) {
 	
 	//PRUEBAS	
 
-while (1)  {  
-	int pin16=16;
-	for (pin16 = 16; pin16 < 24; pin16++){
-		gpio_hal_escribir(pin16,1,1);
-		wait();
-		gpio_hal_escribir(pin16,1,0);
-	}	
-	for(pin16=23; pin16 >= 16; pin16--){
-		gpio_hal_escribir(pin16,1,1);
-		wait();
-		gpio_hal_escribir(pin16,1,0);
+	while (1)  {  
+		int pin16=16;
+		for (pin16 = 16; pin16 < 24; pin16++){
+			gpio_hal_escribir(pin16,1,1);
+			wait();
+			gpio_hal_escribir(pin16,1,0);
+		}	
+		for(pin16=23; pin16 >= 16; pin16--){
+			gpio_hal_escribir(pin16,1,1);
+			wait();
+			gpio_hal_escribir(pin16,1,0);
+		}
+		total = temporizador_hal_parar();
+			
 	}
-	total = temporizador_hal_parar();
-		
-}
 
-
+	unsigned int j; // LED var
+	unsigned int total;*/
 
 //while (1){
 		/* Loop forever */

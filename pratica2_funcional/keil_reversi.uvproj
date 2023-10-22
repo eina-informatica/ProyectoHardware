@@ -512,14 +512,24 @@
               <FilePath>.\io_reserva.h</FilePath>
             </File>
             <File>
-              <FileName>time_hal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\time_hal.c</FilePath>
-            </File>
-            <File>
               <FileName>timer_hal.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\timer_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>hello_world.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hello_world.c</FilePath>
+            </File>
+            <File>
+              <FileName>hello_world.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hello_world.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\timer_hal.c</FilePath>
             </File>
           </Files>
         </Group>
