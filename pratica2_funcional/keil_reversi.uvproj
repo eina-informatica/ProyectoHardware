@@ -447,26 +447,6 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>Power_management.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Power_management.c</FilePath>
-            </File>
-            <File>
-              <FileName>Power_management.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Power_management.h</FilePath>
-            </File>
-            <File>
-              <FileName>boton_eint0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\boton_eint0.c</FilePath>
-            </File>
-            <File>
-              <FileName>boton_eint0.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\boton_eint0.h</FilePath>
-            </File>
-            <File>
               <FileName>gpio_hal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gpio_hal.c</FilePath>
@@ -512,11 +492,6 @@
               <FilePath>.\io_reserva.h</FilePath>
             </File>
             <File>
-              <FileName>timer_hal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\timer_hal.h</FilePath>
-            </File>
-            <File>
               <FileName>hello_world.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\hello_world.c</FilePath>
@@ -530,6 +505,21 @@
               <FileName>timer_hal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\timer_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\power.c</FilePath>
+            </File>
+            <File>
+              <FileName>power.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\power.h</FilePath>
             </File>
           </Files>
         </Group>

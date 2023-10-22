@@ -5,10 +5,3 @@
 .\hello_world.o: gpio_hal.h
 .\hello_world.o: C:\Keil_v5\ARM\INC\Philips\LPC210X.H
 .\hello_world.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\hello_world.o: timer_drv.h
-.\hello_world.o: timer_hal.h
-.\hello_world.o: cola.h
-.\hello_world.o: gpio_hal.h
-.\hello_world.o: gpio_hal.c
-.\hello_world.o: gpio_hal.h
-.\hello_world.o: io_reserva.h

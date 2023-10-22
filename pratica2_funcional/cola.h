@@ -1,6 +1,7 @@
+#include <LPC210X.H>
 #include <stdint.h>
 #include "gpio_hal.h"
-#include "gpio_hal.c"
+#include "gpio_hal.h"
 #include "io_reserva.h"
 
 #ifndef COLA_H

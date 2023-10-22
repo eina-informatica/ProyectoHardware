@@ -7,7 +7,7 @@ void hello_world_inicializar(void) {
     size = GPIO_HELLO_WORLD_BITS;
     cont = pin;
     gpio_hal_sentido(0, 8, GPIO_HAL_PIN_DIR_OUTPUT);
-    gpio_hal_sentido(0, 8, GPIO_HAL_PIN_DIR_INPUT);
+    //gpio_hal_sentido(0, 8, GPIO_HAL_PIN_DIR_INPUT);
 }
 
 void hello_world_tick_tack(void) {

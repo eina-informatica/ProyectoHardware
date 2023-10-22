@@ -10,6 +10,11 @@ void wait0(void)  { /* wait function */
 
 //Se encargará de iniciar la cola 
 void planificador() {
+		temporizador_drv_iniciar();
+		temporizador_drv_empezar();
+		gpio_hal_sentido(0, 32, GPIO_HAL_PIN_DIR_OUTPUT);
+		//gpio_hal_escribir(0, 32, 0);
+	
     FIFO_inicializar(GPIO_OVERFLOW);
     hello_world_inicializar();
 

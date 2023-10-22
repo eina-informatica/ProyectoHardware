@@ -12,7 +12,7 @@ void clear_nueva_pulsacion_0(void){
 unsigned int nueva_pulsacion_0(void){
 	unsigned int new;
 	new = read_nueva_pulsacion_eint0();
-	clear_nueva_pulsacion_eint0(); // Las pulsaciones sólo deben procesarse una vez. Por tanto se pone a 0 después de leerlo
+	clear_nueva_pulsacion_eint0(); // Las pulsaciones sï¿½lo deben procesarse una vez. Por tanto se pone a 0 despuï¿½s de leerlo
 	return new;
 }
 
@@ -20,13 +20,13 @@ unsigned int nueva_pulsacion_0(void){
 
 void actualizar_estado_0(void){
 	EXTINT =  EXTINT | 1;        // clear interrupt flag de EINT0     
-	if ((EXTINT & 1) == 1){ // si el botón está pulsado, la instrucción de arriba no hará nada y EXTINT valdrá 1. Si el botón no está pulsado valdrá 0
+	if ((EXTINT & 1) == 1){ // si el botï¿½n estï¿½ pulsado, la instrucciï¿½n de arriba no harï¿½ nada y EXTINT valdrï¿½ 1. Si el botï¿½n no estï¿½ pulsado valdrï¿½ 0
 		estado_pulsacion_0 = PULSADO;
 	}
 	else{
 		estado_pulsacion_0 = NO_PULSADO;
-		// si no está pulsado se habilitan las interrupciones (antes ya se ha limpiado el de EXTINT)
-		VICIntEnable = VICIntEnable | 0x00004000; // Enable EXTINT0 Interrupt (la interrupción del botón se deshabilita a si misma, al terminar la pulsación hay ue volver a habilitarla)
+		// si no estï¿½ pulsado se habilitan las interrupciones (antes ya se ha limpiado el de EXTINT)
+		VICIntEnable = VICIntEnable | 0x00004000; // Enable EXTINT0 Interrupt (la interrupciï¿½n del botï¿½n se deshabilita a si misma, al terminar la pulsaciï¿½n hay ue volver a habilitarla)
 	}
 }
 

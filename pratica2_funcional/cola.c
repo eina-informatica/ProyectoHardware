@@ -1,10 +1,10 @@
-#include <LPC210X.H>
 #include "cola.h"
 
 struct ITEM cola[SIZE];
 int numV[max_Eventos];
 uint8_t frente;
 uint8_t final;
+uint8_t i;
 
 // Estructura para un elemento de la cola
 // Inicialización de la cola FIFO
@@ -12,6 +12,9 @@ void FIFO_inicializar(GPIO_HAL_PIN_T pin_overflow) {
     frente = 0; // lgo sumar ++ eb las iter
     final = 0;
     gpio_hal_escribir(pin_overflow, GPIO_OVERFLOW_BITS, 0);
+		for (i = 0; i < max_Eventos; i++) {
+			numV[i] = 0;
+		}
 }
 
 // Función para encolar un evento
@@ -22,6 +25,7 @@ void FIFO_encolar(EVENTO_T ID_evento, uint32_t auxData) {
         numV[ID_evento]++;
         final = (final + 1) % SIZE;
     } else {
+				gpio_hal_sentido(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS, GPIO_HAL_PIN_DIR_OUTPUT);
         gpio_hal_escribir(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS, 1);
         // La cola está llena, manejo de error o desbordamiento 
     }

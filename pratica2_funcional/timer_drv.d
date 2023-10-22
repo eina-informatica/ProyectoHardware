@@ -6,6 +6,5 @@
 .\timer_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\timer_drv.o: cola.h
 .\timer_drv.o: gpio_hal.h
-.\timer_drv.o: gpio_hal.c
 .\timer_drv.o: gpio_hal.h
 .\timer_drv.o: io_reserva.h
