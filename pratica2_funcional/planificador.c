@@ -1,5 +1,7 @@
 #include "planificador.h"
 
+int stat;
+
 void wait0(void)  { /* wait function */
 	unsigned int i;
 
@@ -22,6 +24,7 @@ void planificador() {
         temporizador_drv_reloj(10, &FIFO_encolar, Timer1);
         wait0();
         hello_world_tick_tack();
+				stat = FIFO_estadisticas(Timer1);
     }
     gpio_hal_escribir(GPIO_HELLO_WORLD, GPIO_HELLO_WORLD_BITS, 0);
 }
