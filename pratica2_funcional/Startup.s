@@ -296,10 +296,38 @@ MEMMAP          EQU     0xE01FC040      ; Memory Mapping Control
 __user_initial_stackheap
 
                 LDR     R0, =  Heap_Mem
-                LDR     R1, =(Stack_Mem + USR_Stack_Size)
+                LDR     R1, = (Stack_Mem + USR_Stack_Size)
                 LDR     R2, = (Heap_Mem +      Heap_Size)
                 LDR     R3, = Stack_Mem
                 BX      LR
+
+                EXPORT Switch_to_PLL
+                
+Switch_to_PLL
+                LDR R0, =PLL_BASE
+                MOV R1, #0xAA
+                MOV R2, #0x55
+
+                ; Configure and Enable PLL
+                MOV R2, #PLLCFG_Val
+                STR R2, [R0, #PLLCFG_OFS]
+
+                MOV R3, #PLLCON_PLLE
+                STR R3, [R0, #PLLCON_OFS]
+
+                STR R1, [R0, #PLLFEED_OFS]
+                STR R2, [R0, #PLLFEED_OFS]
+
+; Wait until PLL Locked
+PLL_Loop2
+                LDR R3, [R0, #PLLSTAT_OFS]
+                ANDS R3, R3, #PLLSTAT_PLOCK
+                BEQ PLL_Loop2
+
+                MOV R3, #(PLLCON_PLLE | PLLCON_PLLC)
+                STR R3, [R0, #PLLCON_OFS]
+                STR R2, [R0, #PLLFEED_OFS]
+                BX LR
 
 
                 END

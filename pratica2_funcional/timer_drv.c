@@ -30,5 +30,5 @@ void temporizador_drv_reloj(uint32_t periodo, void (*funcion_encolar_evento)(), 
     evento_temp = ID_evento;
     callback_func_temp = funcion_encolar_evento;
 
-    temporizador_hal_reloj(periodo, &aux_callback);
+    temporizador_hal_reloj(periodo, aux_callback);
 }

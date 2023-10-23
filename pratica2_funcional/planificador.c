@@ -21,10 +21,10 @@ void planificador() {
     hello_world_inicializar();
 
     while (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
-        temporizador_drv_reloj(10, &FIFO_encolar, Timer1);
-        wait0();
+        temporizador_drv_reloj(10, FIFO_encolar, Timer1);
+        //wait0();
         hello_world_tick_tack();
-				stat = FIFO_estadisticas(Timer1);
+				//PM_power_down();
     }
     gpio_hal_escribir(GPIO_HELLO_WORLD, GPIO_HELLO_WORLD_BITS, 0);
 }

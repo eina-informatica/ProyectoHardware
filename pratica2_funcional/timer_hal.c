@@ -9,7 +9,7 @@ void temporizador_hal_iniciar() {
     // Configure the timer
     T0MCR = 3; //bit 0 Interrupt on MR0: an interrupt is generated when MR0 matches the value in the TC
                // bit 2 Stop on MR0: the TC and PC will be stopped and TCR[0] will be set to 0 if MR0 matches the TC.
-	T0MR0 = 149999;
+		T0MR0 = 14999;
     VICVectAddr0 = (unsigned long) timer0_ISR;          // set interrupt vector in 0
     VICVectCntl0 = 0x20 | 4;
     //inicializar contador de interrupciones
@@ -53,6 +53,8 @@ void timer1_ISR() __irq {
     if (callback_func != NULL) {
         callback_func();
     }
+		T1IR = 1; // Clear interrupt flag
+    VICVectAddr = 0; // Acknowledge Interrupt
 }
 
 void temporizador_hal_reloj(uint32_t periodo, void (*funcion_callback)()) {
@@ -62,15 +64,14 @@ void temporizador_hal_reloj(uint32_t periodo, void (*funcion_callback)()) {
     T1TCR = 2; // When one, the Timer Counter and the Prescale Counter are synchronously reset 
     T1TCR = 0; // Disable the timer
   }else{
-    callback_func = funcion_callback;
+			callback_func = funcion_callback;
       T1MCR = 3; //bit 0 Interrupt on MR0: an interrupt is generated when MR0 matches the value in the TC
         // bit 2 Stop on MR0: the TC and PC will be stopped and TCR[0] will be set to 0 if MR0 matches the TC.
-      T1MR0 = periodo;
+      T1MR0 = periodo*3000;
       VICVectAddr1 = (unsigned long) timer1_ISR; // set interrupt vector in 0
       VICVectCntl1 = 0x20 | 5;  
       //inicializar contador de interrupciones
       T1TCR = 1; // Enable the timer
-      VICIntEnable = VICIntEnable | 0x00000011; // Enable Timer0 Interrupt
-  }  
-           
+      VICIntEnable = VICIntEnable | 0x20; // Enable Timer0 Interrupt
+  }
 }
