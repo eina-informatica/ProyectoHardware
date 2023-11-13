@@ -1,0 +1,12 @@
+.\juego.o: juego.c
+.\juego.o: juego.h
+.\juego.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\juego.o: cola.h
+.\juego.o: C:\Keil_v5\ARM\INC\Philips\LPC210X.H
+.\juego.o: gpio_hal.h
+.\juego.o: io_reserva.h
+.\juego.o: timer_drv.h
+.\juego.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\juego.o: timer_hal.h
+.\juego.o: cola.h
+.\juego.o: gpio_hal.h
