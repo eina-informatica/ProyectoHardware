@@ -40,7 +40,9 @@
 .\main.o: gpio_hal.h
 .\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+.\main.o: tablero.h
 .\main.o: celda.h
+.\main.o: config_conecta_K.h
 .\main.o: linea_serie_drv.h
 .\main.o: linea_serie_hal.h
 .\main.o: cola.h

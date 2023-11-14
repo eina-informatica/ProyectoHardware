@@ -40,7 +40,9 @@
 .\planificador.o: gpio_hal.h
 .\planificador.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\planificador.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+.\planificador.o: tablero.h
 .\planificador.o: celda.h
+.\planificador.o: config_conecta_K.h
 .\planificador.o: linea_serie_drv.h
 .\planificador.o: linea_serie_hal.h
 .\planificador.o: cola.h

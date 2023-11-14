@@ -532,11 +532,6 @@
               <FilePath>.\int_externas_hal.c</FilePath>
             </File>
             <File>
-              <FileName>juego.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\juego.c</FilePath>
-            </File>
-            <File>
               <FileName>alarmas.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\alarmas.c</FilePath>
@@ -560,6 +555,11 @@
               <FileName>int_externas_hal.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\int_externas_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>juego.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\juego.c</FilePath>
             </File>
             <File>
               <FileName>juego.h</FileName>
@@ -615,6 +615,26 @@
               <FileName>linea_serie_hal.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\linea_serie_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>celda.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\celda.h</FilePath>
+            </File>
+            <File>
+              <FileName>tablero.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\tablero.h</FilePath>
+            </File>
+            <File>
+              <FileName>tablero.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\tablero.c</FilePath>
+            </File>
+            <File>
+              <FileName>config_conecta_K.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\config_conecta_K.h</FilePath>
             </File>
           </Files>
         </Group>

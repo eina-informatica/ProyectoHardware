@@ -19,5 +19,7 @@
 .\visualizar.o: gpio_hal.h
 .\visualizar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\visualizar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+.\visualizar.o: tablero.h
 .\visualizar.o: celda.h
 .\visualizar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+.\visualizar.o: config_conecta_K.h

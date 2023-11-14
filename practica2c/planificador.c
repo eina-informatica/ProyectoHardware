@@ -71,7 +71,7 @@ void planificador() {
 										hello_world_tick_tack();
 										break;
 								case ev_RX_SERIE:
-										juego_tratar_evento(*aux);
+										juego_tratar_evento(ev_RX_SERIE, aux);
 										break;
 								default:
 										// Manejar otros casos aquí

@@ -7,7 +7,6 @@ void juego_inicializar(){
     row = 0, column = 0, color = 1;
     final = 0, ganador = 0;
     tiempo_ini = 0, tiempo_fin = 0;
-
 }
 
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
@@ -47,13 +46,13 @@ uint8_t conecta_K_hay_linea(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t c
    // buscar linea en fila, columna y 2 diagonales
    for(i=0; (i < N_DELTAS) && (linea == FALSE); ++i) {
        // buscar sentido
-       long_linea = conecta_K_buscar_alineamiento_c(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
+       long_linea = conecta_K_buscar_alineamiento(t, fila, columna, color, deltas_fila[i], deltas_columna[i]);
        linea = long_linea >= K_SIZE;
        if (linea) {
          continue;
        }
        // buscar sentido inverso
-       long_linea += conecta_K_buscar_alineamiento_c(t, fila-deltas_fila[i],
+       long_linea += conecta_K_buscar_alineamiento(t, fila-deltas_fila[i],
 	       columna-deltas_columna[i], color, -deltas_fila[i], -deltas_columna[i]);
 
 
