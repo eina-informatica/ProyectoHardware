@@ -64,17 +64,17 @@ CELDA tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna);
 // funciones de comprobación de rangos
 
 //la columna es valida?
-static inline uint8_t tablero_columna_valida(uint8_t columna) {
+__inline static uint8_t tablero_columna_valida(uint8_t columna) {
 	return columna < NUM_COLUMNAS;
 }
 
 // la fila es valida?
-static inline uint8_t tablero_fila_valida(uint8_t fila) {
+__inline static uint8_t tablero_fila_valida(uint8_t fila) {
   return fila < NUM_FILAS;
 }
 
 // el color es valido?
-static inline uint8_t tablero_color_valido(uint8_t color) {
+__inline static uint8_t tablero_color_valido(uint8_t color) {
 	return (color==1 || color == 2);
 }
 #endif // __TABLERO_H__

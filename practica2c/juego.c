@@ -66,14 +66,16 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
 	uint8_t columna, uint8_t color, int8_t delta_fila, int8_t
 	delta_columna)
 {
+	uint8_t nueva_fila;
+	 uint8_t nueva_columna ;
 		// comprobar si la celda es valida y del mismo color
 		if (tablero_buscar_color(t, fila, columna, color) != EXITO) {
 			return 0;
 		}
 		
     // encontrada, entonces avanzar índices
-    uint8_t nueva_fila = fila + delta_fila;
-    uint8_t nueva_columna = columna + delta_columna;
+    nueva_fila = fila + delta_fila;
+    nueva_columna = columna + delta_columna;
 
     // incrementar longitud y visitar celda vecina
     return 1 + conecta_K_buscar_alineamiento(t, nueva_fila, nueva_columna, color, delta_fila, delta_columna);
@@ -81,21 +83,23 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
 
 
 void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
-
+			unsigned int i,j;
+		    unsigned int indice;
+	
     // Se inicializa el buffer 'tablero' con ceros
     memset(tablero, 0, 200);
 
     // Variable para el índice en el buffer 'tablero'
-    unsigned int indice = 0;
+			indice= 0;
 
     // Ciclo para recorrer las filas del tablero en orden descendente
-    for (unsigned int i = 6; i > 1; i--) {
+    for (i = 6; i > 1; i--) {
         // Se añade el número de la fila al buffer 'tablero'
         tablero[indice] = i + '0';
         tablero[indice] = '|';
 
         // Ciclo para recorrer las columnas del tablero
-        for (unsigned int j = 1; j < 7; j++) {
+        for (j = 1; j < 7; j++) {
             // Se determina el contenido de la celda y se añade al buffer 'tablero'
             if (cuadricula[i][j] == 0x05) {
                 tablero[indice] = 'B';
@@ -111,7 +115,7 @@ void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
     }
 
     // Ciclo para agregar una línea divisoria en la parte inferior del tablero
-    for (unsigned int i = 1; i < 16; i++) {
+    for ( i = 1; i < 16; i++) {
         tablero[indice] = '-';
     }
 
@@ -123,7 +127,7 @@ void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
     tablero[indice] = '|';
 
     // Ciclo para añadir los números de las columnas al buffer 'tablero'
-    for (unsigned int i = 1; i < 7; i++) {
+    for ( i = 1; i < 7; i++) {
         tablero[indice] = i + '0';
         tablero[indice] = '|';
     }
@@ -138,11 +142,12 @@ void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
     linea_serie_drv_enviar_array(tablero);
 }
 // Función para reiniciar un tablero de juego
-void C4_reiniciar_tablero(void) {
+void conecta_K__reiniciar_tablero(CELDA cuadricula[NUM_FILAS][NUM_COLUMNAS]) {
+		unsigned int i,j;
     // Ciclo para recorrer las filas del tablero
-    for (unsigned int i = 1; i < NUM_FILAS; i++) {
+    for ( i = 1; i < NUM_FILAS; i++) {
         // Ciclo para recorrer las columnas del tablero
-        for (unsigned int j = 1; j < NUM_COLUMNAS; j++) {
+        for ( j = 1; j < NUM_COLUMNAS; j++) {
             // Se llama a la función 'celda_poner_valor' para establecer el valor de la celda en 0
             celda_poner_valor(&cuadricula[i][j], 0);
         }

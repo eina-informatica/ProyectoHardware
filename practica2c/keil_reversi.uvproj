@@ -617,9 +617,24 @@
               <FilePath>.\linea_serie_hal.h</FilePath>
             </File>
             <File>
+              <FileName>config_conecta_K.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\config_conecta_K.h</FilePath>
+            </File>
+            <File>
+              <FileName>entrada.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\entrada.c</FilePath>
+            </File>
+            <File>
               <FileName>celda.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\celda.h</FilePath>
+            </File>
+            <File>
+              <FileName>entrada.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\entrada.h</FilePath>
             </File>
             <File>
               <FileName>tablero.h</FileName>
@@ -630,11 +645,6 @@
               <FileName>tablero.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\tablero.c</FilePath>
-            </File>
-            <File>
-              <FileName>config_conecta_K.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\config_conecta_K.h</FilePath>
             </File>
           </Files>
         </Group>
