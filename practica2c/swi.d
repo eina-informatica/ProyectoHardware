@@ -1,2 +1,1 @@
-.\swi.o: swi.c
-.\swi.o: swi.h
+.\swi.o: SWI.s
