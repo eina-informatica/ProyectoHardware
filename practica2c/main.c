@@ -10,9 +10,11 @@
 
 int main (void) {
 	//planificador();
-		linea_serie_drv_iniciar();
-		linea_serie_drv_enviar_array("maricon");
-		while(1);
+	//linea_serie_drv_iniciar();
+	//linea_serie_drv_enviar_array("test");
+	juego_inicializar();
+	//conecta_K_visualizar_tablero();
+	while(1);
 		
 	/*eint0_init(); // activates EINT0 interrupts
 	// Nota la gesti�n del GPIO vosotros la debe�s hacer en GPIO.c no en el main o en el reversi

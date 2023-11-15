@@ -84,7 +84,7 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
 
 void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
 			unsigned int i,j;
-		    unsigned int indice;
+		   unsigned int indice;
 	
     // Se inicializa el buffer 'tablero' con ceros
     memset(tablero, 0, 200);

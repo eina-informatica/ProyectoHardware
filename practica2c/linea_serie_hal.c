@@ -16,6 +16,7 @@ void uart0_init(void (*funcion_callback)()){
 		estado=libre;
     callback_func_temp2=funcion_callback;
 }
+
 unsigned int uart0_caracter_recibido(void) {
     return (U0IIR & 0xe) == 4;
 }
