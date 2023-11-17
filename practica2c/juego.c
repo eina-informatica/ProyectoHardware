@@ -12,20 +12,29 @@ void juego_inicializar(){
 }
 
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
-    if (ID_evento==Eint1)
-    {
-        cuenta++;
-        FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
-        intervalo=temporizador_drv_leer()-ant_intervalo;
-				ant_intervalo = temporizador_drv_leer(); 
-        
-    }else if (ID_evento==Eint2)
-    {
-        cuenta--;
-        FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
-        intervalo=temporizador_drv_leer()-ant_intervalo;
-				ant_intervalo = temporizador_drv_leer(); 
-    }
+		switch(ID_evento) {
+				case Eint1: 
+						cuenta++;
+						FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
+						intervalo=temporizador_drv_leer()-ant_intervalo;
+						ant_intervalo = temporizador_drv_leer(); 
+						break;
+				case Eint2:
+						cuenta--;
+						FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
+						intervalo=temporizador_drv_leer()-ant_intervalo;
+						ant_intervalo = temporizador_drv_leer(); 
+						break;
+				case ev_RX_SERIE:
+						/*char vector[3] = {'a', 'b', 'c'};
+						// Asignar valores desde auxData al vector
+						for (int i = 0; i < 3; i++) {
+								vector[i] = auxData[i];
+						}*/
+						break;
+				default:
+						break;
+		}
 }
 
 int juego_leer_cuenta(void){

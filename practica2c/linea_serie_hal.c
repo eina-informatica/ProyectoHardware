@@ -40,7 +40,7 @@ void gestion_caracter_hal(char c){
     static int error=0;
 	switch(maq_estado){
 		case inicio:
-			if (c=='$'){	
+!			if (c=='$'){	
 				//buffer = (char*)malloc(3 * sizeof(char));
 				 memset(buffer, 0, 3);
 				  if(error){gpio_hal_escribir(GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,0);}
@@ -53,19 +53,19 @@ void gestion_caracter_hal(char c){
 		case durante:
 			 if (c=='!'){
 					if (i==3){
-                        if (strcmp(buffer,"NEW")==0)
-                        {
-                            //crear tablero
-														FIFO_encolar(ev_RX_SERIE,*buffer);                            
-                        }else if(strcmp(buffer,"END")==0){
-                            //acabar partida
-                            FIFO_encolar(ev_RX_SERIE,*buffer);
-                        }else if (buffer[1]=='-'&& isdigit(buffer[2]) && isdigit(buffer[0])){//comprobar que hace bien isdigit
-                            //mover ficha
-                            FIFO_encolar(ev_RX_SERIE,*buffer);
-                        }else{
-                            error=1;}
-												maq_estado=inicio;
+							if (strcmp(buffer,"NEW")==0)
+							{
+									//crear tablero
+									FIFO_encolar(ev_RX_SERIE,*buffer);                            
+							}else if(strcmp(buffer,"END")==0){
+									//acabar partida
+									FIFO_encolar(ev_RX_SERIE,*buffer);
+							}else if (buffer[1]=='-'&& isdigit(buffer[2]) && isdigit(buffer[0])){//comprobar que hace bien isdigit
+									//mover ficha
+									FIFO_encolar(ev_RX_SERIE,*buffer);
+							}else{
+									error=1;}
+							maq_estado=inicio;
 					}else{
 							error=1;
 					}
@@ -82,12 +82,12 @@ void gestion_caracter_hal(char c){
 			break;
 		}
         if (error){
-					error=0;
-					i=0;
-					maq_estado=inicio;
-					estado=libre;
-					gpio_hal_escribir(GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,1);
-			    }
+						error=0;
+						i=0;
+						maq_estado=inicio;
+						estado=libre;
+						gpio_hal_escribir(GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,1);
+			  }
     }
 
 
