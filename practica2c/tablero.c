@@ -12,9 +12,7 @@ tablero_inicializar(TABLERO *t)
 	}
 }
 
-int
-tablero_insertar_celda(TABLERO *t, uint8_t fila, uint8_t columna, CELDA *c)
-{
+int tablero_insertar_celda(TABLERO *t, uint8_t fila, uint8_t columna, CELDA *c) {
 	size_t col = 0;
 	// comprobar valided posición
 	if( !tablero_fila_valida(fila) || !tablero_columna_valida(columna)) {
@@ -46,9 +44,7 @@ tablero_insertar_celda(TABLERO *t, uint8_t fila, uint8_t columna, CELDA *c)
 	return EXITO;
 }
 
-int
-tablero_insertar_color(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color)
-{
+int tablero_insertar_color(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color) {
 	size_t col = 0;
 	// comprobar valided posición
 	if( !tablero_fila_valida(fila) || !tablero_columna_valida(columna)) {
@@ -81,9 +77,7 @@ tablero_insertar_color(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color)
 	return EXITO;
 }
 
-int
-tablero_borrar_celda(TABLERO *t, uint8_t fila, uint8_t columna)
-{
+int tablero_borrar_celda(TABLERO *t, uint8_t fila, uint8_t columna) {
 	size_t col = 0;
 	// comprobar validez posición
 	if( !tablero_fila_valida(fila) || !tablero_columna_valida(columna)) {
@@ -102,9 +96,7 @@ tablero_borrar_celda(TABLERO *t, uint8_t fila, uint8_t columna)
 	return EXITO;
 }
 
-CELDA 
-tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna)
-{
+CELDA tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna) {
 	size_t col = 0;
 	CELDA celda_invalida;
 
@@ -127,9 +119,7 @@ tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna)
 	return t->no_ceros[fila][col];
 }
 
-int
-tablero_buscar_color(const TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color)
-{
+int tablero_buscar_color(const TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color) {
 	size_t col = 0;
 	// comprobar validez posición
 	if( !tablero_fila_valida(fila) || !tablero_columna_valida(columna)) {

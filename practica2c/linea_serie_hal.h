@@ -7,7 +7,7 @@
 
 #ifndef LINEA_SERIE_HAL_H
 #define LINEA_SERIE_HAL_H
-void uart0_init(void (*funcion_callback)());
+void uart0_init(void (*funcion_callback)(char));
 void linea_serie_hal_enviar_array(char cadena[]);
 void linea_serie_hal_continuar_envio(void);
 

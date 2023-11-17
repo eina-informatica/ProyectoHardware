@@ -4,7 +4,7 @@ void (*callback_func_temp2)(char);
 static volatile enum estado_envio estado;
 static volatile enum estado_recibir maq_estado=inicio;
 
-void uart0_init(void (*funcion_callback)()){
+void uart0_init(void (*funcion_callback)(char)){
     PINSEL0  = 0x5; // Configuramos los pines P0.0 y P0.1 como TXD0 y RXD0
     U0LCR = 0x83;//Set DLAB=1, Divisor Latch Access Bit y 8 bits de datos y bit de parada
     U0DLL = 97;//Establecemos la tasa de baudios
@@ -34,8 +34,8 @@ void uart0_ISR(void) __irq{
 	}else{
 		linea_serie_hal_continuar_envio();
 	}
-
 }
+
 void gestion_caracter_hal(char c){
     static int error=0;
 	switch(maq_estado){
@@ -104,7 +104,7 @@ void gestion_caracter_hal(char c){
 }
 
 void linea_serie_hal_continuar_envio(){
-    if (buffer_envio[indice] =='\0') {
+    if (buffer_envio[indice] == '\0') {
         estado = libre;
         FIFO_encolar(ev_RX_SERIE,0);
     }else {

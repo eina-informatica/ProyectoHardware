@@ -7,6 +7,8 @@ void juego_inicializar(){
     row = 0, column = 0, color = 1;
     final = 0, ganador = 0;
     tiempo_ini = 0, tiempo_fin = 0;
+		
+		tablero_inicializar(&cuadricula);
 }
 
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
@@ -81,66 +83,68 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
     return 1 + conecta_K_buscar_alineamiento(t, nueva_fila, nueva_columna, color, delta_fila, delta_columna);
 }
 
-
-void conecta_K_visualizar_tablero(CELDA cuadricula[7][8]){
-			unsigned int i,j;
-		   unsigned int indice;
+void conecta_K_visualizar_tablero(void){
+	  unsigned int i,j;
+		unsigned int indice;
 	
     // Se inicializa el buffer 'tablero' con ceros
     memset(tablero, 0, 200);
 
     // Variable para el índice en el buffer 'tablero'
-			indice= 0;
+		indice = 0;
 
     // Ciclo para recorrer las filas del tablero en orden descendente
-    for (i = 6; i > 1; i--) {
+    for (i = MAX_NO_CERO; i > 0; i--) {
         // Se añade el número de la fila al buffer 'tablero'
-        tablero[indice] = i + '0';
-        tablero[indice] = '|';
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
 
         // Ciclo para recorrer las columnas del tablero
-        for (j = 1; j < 7; j++) {
+        for (j = 1; j <= NUM_FILAS; j++) {
+						CELDA celda = tablero_leer_celda(&cuadricula, i, j);
             // Se determina el contenido de la celda y se añade al buffer 'tablero'
-            if (cuadricula[i][j] == 0x05) {
-                tablero[indice] = 'B';
-            } else if (cuadricula[i][j] == 0x06) {
-                tablero[indice] = 'N';
-            } else if (cuadricula[i][j] == 0x00) {
-                tablero[indice] = ' ';
+            if (celda == 0x05) {
+                tablero[indice++] = 'B';
+            } else if (celda == 0x06) {
+                tablero[indice++] = 'N';
+            } else if (celda == 0x00) {
+                tablero[indice++] = ' ';
             }
-            tablero[indice] = '|';
+            tablero[indice++] = '|';
         }
         // Se agrega un salto de línea al buffer 'tablero'
-        tablero[indice] = '\n';
+        tablero[indice++] = '\n';
     }
 
     // Ciclo para agregar una línea divisoria en la parte inferior del tablero
-    for ( i = 1; i < 16; i++) {
-        tablero[indice] = '-';
-    }
+    /*for ( i = 1; i < 16; i++) {
+        tablero[indice++] = '-';
+    }*/
 
     // Se añade un salto de línea al buffer 'tablero'
-    tablero[indice] = '\n';
+    //tablero[indice++] = '\n';
 
     // Se añade un '-' y '|' para etiquetar las columnas del tablero
-    tablero[indice] = '-';
-    tablero[indice] = '|';
+    tablero[indice++] = '-';
+    tablero[indice++] = '|';
 
     // Ciclo para añadir los números de las columnas al buffer 'tablero'
-    for ( i = 1; i < 7; i++) {
-        tablero[indice] = i + '0';
-        tablero[indice] = '|';
+    for ( i = 1; i <= NUM_FILAS; i++) {
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
     }
 
     // Se añade un salto de línea al buffer 'tablero'
-    tablero[indice] = '\n';
+    tablero[indice++] = '\n';
 
     // Se añade un salto de línea adicional al buffer 'tablero'
-    tablero[indice] = '\n';
+    tablero[indice++] = '\n';
 
     // Se envía el contenido del buffer 'tablero' a través de UART0
     linea_serie_drv_enviar_array(tablero);
+		//linea_serie_drv_enviar_array("eina");
 }
+
 // Función para reiniciar un tablero de juego
 void conecta_K__reiniciar_tablero(CELDA cuadricula[NUM_FILAS][NUM_COLUMNAS]) {
 		unsigned int i,j;

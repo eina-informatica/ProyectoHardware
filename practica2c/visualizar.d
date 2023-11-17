@@ -14,6 +14,7 @@
 .\visualizar.o: swi.h
 .\visualizar.o: cola.h
 .\visualizar.o: gpio_hal.h
+.\visualizar.o: linea_serie_drv.h
 .\visualizar.o: linea_serie_hal.h
 .\visualizar.o: cola.h
 .\visualizar.o: gpio_hal.h

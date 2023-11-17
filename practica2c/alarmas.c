@@ -18,7 +18,7 @@ void alarma_activar(EVENTO_T ID_evento, uint32_t retardo, uint32_t auxData) {
     
     // Si ya hay alarmas configuradas se reprograma
 		int i;
-		for (i = 0 ; i< MAX_ALARM; i++){
+		for (i = 0 ; i < MAX_ALARM; i++){
 				if(alarmas[i].id ==ID_evento){
             encontrada=1;
             if (nuevo_periodo > 0) {

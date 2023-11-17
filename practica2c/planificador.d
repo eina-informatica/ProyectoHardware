@@ -34,6 +34,7 @@
 .\planificador.o: timer_hal.h
 .\planificador.o: cola.h
 .\planificador.o: gpio_hal.h
+.\planificador.o: linea_serie_drv.h
 .\planificador.o: linea_serie_hal.h
 .\planificador.o: cola.h
 .\planificador.o: gpio_hal.h

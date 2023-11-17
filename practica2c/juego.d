@@ -12,6 +12,7 @@
 .\juego.o: swi.h
 .\juego.o: cola.h
 .\juego.o: gpio_hal.h
+.\juego.o: linea_serie_drv.h
 .\juego.o: linea_serie_hal.h
 .\juego.o: cola.h
 .\juego.o: gpio_hal.h

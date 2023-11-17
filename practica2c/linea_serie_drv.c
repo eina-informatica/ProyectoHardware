@@ -21,6 +21,7 @@ void linea_serie_drv_iniciar(/*char c, void (*funcion_tratar_caracter)()*/void){
 void linea_serie_drv_enviar_array(char cadena[]){
     linea_serie_hal_enviar_array(cadena);
 }
+
 void linea_serie_drv_continuar_envio(){
     linea_serie_hal_continuar_envio();
 }

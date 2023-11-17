@@ -34,6 +34,7 @@
 .\main.o: timer_hal.h
 .\main.o: cola.h
 .\main.o: gpio_hal.h
+.\main.o: linea_serie_drv.h
 .\main.o: linea_serie_hal.h
 .\main.o: cola.h
 .\main.o: gpio_hal.h
