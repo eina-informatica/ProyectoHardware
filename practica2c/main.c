@@ -10,10 +10,11 @@
 
 int main (void) {
 	//planificador();
-	linea_serie_drv_iniciar();
+	
+	FIFO_inicializar(GPIO_OVERFLOW);
+	FIFO_encolar(0, 0);
+	
 	//linea_serie_drv_enviar_array("test");
-	juego_inicializar();
-	conecta_K_visualizar_tablero();
 	//conecta_K_visualizar_tablero();
 	while(1);
 		

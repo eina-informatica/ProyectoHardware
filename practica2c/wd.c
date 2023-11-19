@@ -1,4 +1,3 @@
-#include <LPC210X.H>
 #include "wd.h"
 void WD_hal_init(int sec) {
  WDTC = sec * 15000000 / 4;
@@ -6,7 +5,7 @@ void WD_hal_init(int sec) {
 }
 
 void WD_hal_feed(void) {
- disable_irq_fiq();
+ disable_irq();
  WDFEED = 0xaa;
  WDFEED = 0x55;
  enable_irq();

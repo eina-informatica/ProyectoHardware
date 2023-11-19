@@ -142,7 +142,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(134=75,104,280,297,0)(135=-1,-1,-1,-1,0)(107=1171,412,1502,740,0)(108=98,129,255,249,0)(106=994,204,1214,508,0)(105=849,53,1039,297,0)(80=784,201,1295,611,0)(104=971,363,1287,782,0)(100=953,294,1536,476,0)(113=282,127,667,568,0)(112=220,154,605,746,0)(136=-1,-1,-1,-1,0)(117=-1,-1,-1,-1,0)(110=850,322,1376,777,0)(111=-1,-1,-1,-1,0)(114=277,416,803,794,0)(115=240,283,757,670,0)(116=790,303,1016,553,0)</Name>
+          <Name>(134=75,104,280,297,0)(135=-1,-1,-1,-1,0)(107=1171,412,1502,740,0)(108=98,129,255,249,0)(106=994,204,1214,508,0)(105=849,53,1039,297,0)(80=784,201,1295,611,0)(104=971,363,1287,782,0)(100=1087,204,1670,386,0)(113=282,127,667,568,0)(112=220,154,605,746,0)(136=-1,-1,-1,-1,0)(117=-1,-1,-1,-1,0)(110=850,322,1376,777,0)(111=-1,-1,-1,-1,0)(114=277,416,803,794,0)(115=240,283,757,670,0)(116=790,303,1016,553,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -154,16 +154,96 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>43</LineNumber>
+          <LineNumber>22</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2512</Address>
+          <Address>692</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\linea_serie_hal.c</Filename>
+          <Filename>.\cola.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>31</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\planificador.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>32</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\planificador.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>33</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\planificador.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>34</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\planificador.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>35</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\planificador.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -172,7 +252,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>&amp;cola</ItemText>
+          <ItemText>0x40000814</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -230,17 +310,17 @@
         <Wi>
           <IntNumber>0</IntNumber>
           <FirstString>`VICIRQStatus</FirstString>
-          <SecondString>0000000000000000000000000000E0FFFFFFEF410100000000000000000000000000000056494349525153746174757300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004100000001000000A932863B16B1D33F1A0000000000000000000000000000000000000098020000</SecondString>
+          <SecondString>0000000000000000000000000000E0FFFFFFEF41010000000000000000000000000000005649434952515374617475730000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000410000000100000039F959E30C62D43F0C0000000000000000000000000000000000000098020000</SecondString>
         </Wi>
         <Wi>
           <IntNumber>1</IntNumber>
           <FirstString>`IOSET</FirstString>
-          <SecondString>0000800000000000000000000000E0FFFFFFEF4100000000000000000000000000000000494F534554000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000200000082206689503BD13F1A000000000000000000000000000000000000004C020000</SecondString>
+          <SecondString>0000800000000000000000000000E0FFFFFFEF4100000000000000000000000000000000494F5345540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000661048CEA846D23F0C000000000000000000000000000000000000004C020000</SecondString>
         </Wi>
         <Wi>
           <IntNumber>2</IntNumber>
           <FirstString>`EXTINT</FirstString>
-          <SecondString>0000000000000000000000000000000000E06F4000000000000000000000000000000000455854494E5400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004100000003000000F6733FF7733FD73F0D000000000000000000000000000000000000004C020000</SecondString>
+          <SecondString>000000000000000000000000000000000000104000000000000000000000000000000000455854494E540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000410000000300000060F65D4E4A57D93F0C000000000000000000000000000000000000004C020000</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -623,8 +703,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\swi.h</PathWithFileName>
-      <FilenameWithoutPath>swi.h</FilenameWithoutPath>
+      <PathWithFileName>.\SWI.h</PathWithFileName>
+      <FilenameWithoutPath>SWI.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -19,26 +19,38 @@ void FIFO_inicializar(GPIO_HAL_PIN_T pin_overflow) {
 
 // Función para encolar un evento
 void FIFO_encolar(EVENTO_T ID_evento, uint32_t auxData) {
+     if (read_irq_bit())
+    {
+        disable_irq();
+    }
     if ((final + 1) % SIZE != frente) {
         cola[final].id =ID_evento;
         cola[final].auxDATA = auxData;
         numV[ID_evento]++;
         final = (final + 1) % SIZE;
+
     } else {
 				gpio_hal_sentido(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS, GPIO_HAL_PIN_DIR_OUTPUT);
         gpio_hal_escribir(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS, 1);
         // La cola está llena, manejo de error o desbordamiento 
     }
+    enable_irq();  
 }
 
 // Función para extraer un evento de la cola
 uint8_t FIFO_extraer(EVENTO_T *ID_evento, uint32_t *auxData) {
+    if (read_irq_bit())
+    {
+        disable_irq();
+    }
     if (frente != final) {
         *ID_evento = cola[frente].id;
         *auxData = cola[frente].auxDATA;
-        frente = (frente + 1) % SIZE;      
+        frente = (frente + 1) % SIZE;
+        enable_irq();      
         return 1; // Evento extraído con éxito
     } else {
+        enable_irq();  
         return 0; // La cola está vacía
     }
 }

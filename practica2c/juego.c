@@ -1,21 +1,23 @@
 #include "juego.h"
 
-void juego_inicializar(){
+void juego_inicializar(void){
     cuenta=0;
     intervalo=0;
     ant_intervalo=0;
     row = 0, column = 0, color = 1;
     final = 0, ganador = 0;
     tiempo_ini = 0, tiempo_fin = 0;
+    t_fini=0, t_init=0;
 		
 		tablero_inicializar(&cuadricula);
 }
 
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
+        char comandito[4];
 		switch(ID_evento) {
 				case Eint1: 
 						cuenta++;
-						FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
+  					FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
 						intervalo=temporizador_drv_leer()-ant_intervalo;
 						ant_intervalo = temporizador_drv_leer(); 
 						break;
@@ -26,15 +28,38 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 						ant_intervalo = temporizador_drv_leer(); 
 						break;
 				case ev_RX_SERIE:
-						/*char vector[3] = {'a', 'b', 'c'};
-						// Asignar valores desde auxData al vector
-						for (int i = 0; i < 3; i++) {
-								vector[i] = auxData[i];
-						}*/
+							// aux=(char*) &auxData;
+							// comandito[1]=aux[1];
+                            comandito[0] = (auxData >> 16) & 0xFF;  // Byte más significativo
+							comandito[1] = (auxData >> 8) & 0xFF;
+							comandito[2] = auxData & 0xFF;  // Byte menos significativo
+							comandito[3] = '\0';  // Añade el carácter nulo para terminar la cadena
+							if (strcmp(comandito,"END")==0){
+									tablero_inicializar(&cuadricula);
+							}else if (strcmp(comandito,"NEW")==0){
+									juego_inicializar();
+							}else if (strcmp(comandito,"TAB")==0){
+                                    t_init=clock_getus();
+									conecta_K_visualizar_tablero();
+							}else if (comandito[1]=='-'&& isdigit(comandito[2]) && isdigit(comandito[0])){
+
+									//hacer _jugada(aux[0],aux[2])
+						}
 						break;
+                case ev_TX_SERIE:
+										t_fini=clock_getus();
+                    conecta_K_visualizar_tiempo(t_fini-t_init);
+                        break;
 				default:
 						break;
 		}
+}
+
+void conecta_K_visualizar_tiempo(uint32_t tiempo){
+    char buffer[10];
+    char *p;
+    p = itoa(tiempo, buffer, 10);
+    linea_serie_drv_enviar_array(p);
 }
 
 int juego_leer_cuenta(void){
@@ -110,7 +135,7 @@ void conecta_K_visualizar_tablero(void){
 
         // Ciclo para recorrer las columnas del tablero
         for (j = 1; j <= NUM_FILAS; j++) {
-						CELDA celda = tablero_leer_celda(&cuadricula, i, j);
+			CELDA celda = tablero_leer_celda(&cuadricula, i, j);
             // Se determina el contenido de la celda y se añade al buffer 'tablero'
             if (celda == 0x05) {
                 tablero[indice++] = 'B';
@@ -154,16 +179,60 @@ void conecta_K_visualizar_tablero(void){
 		//linea_serie_drv_enviar_array("eina");
 }
 
-// Función para reiniciar un tablero de juego
-void conecta_K__reiniciar_tablero(CELDA cuadricula[NUM_FILAS][NUM_COLUMNAS]) {
-		unsigned int i,j;
-    // Ciclo para recorrer las filas del tablero
-    for ( i = 1; i < NUM_FILAS; i++) {
-        // Ciclo para recorrer las columnas del tablero
-        for ( j = 1; j < NUM_COLUMNAS; j++) {
-            // Se llama a la función 'celda_poner_valor' para establecer el valor de la celda en 0
-            celda_poner_valor(&cuadricula[i][j], 0);
-        }
+char* itoa(int value, char* buffer, int base)
+{
+		int i, n,r;
+    // entrada inválida
+    if (base < 2 || base > 32) {
+        return buffer;
     }
+ 
+    // considera el valor absoluto del número
+    n = abs(value);
+ 
+    i = 0;
+    while (n)
+    {
+        r = n % base;
+ 
+        if (r >= 10) {
+            buffer[i++] = 65 + (r - 10);
+        }
+        else {
+            buffer[i++] = 48 + r;
+        }
+ 
+        n = n / base;
+    }
+ 
+    // si el numero es 0
+    if (i == 0) {
+        buffer[i++] = '0';
+    }
+ 
+    // Si la base es 10 y el valor es negativo, la string resultante
+    // va precedido de un signo menos (-)
+    // Con cualquier otra base, el valor siempre se considera sin firmar
+    if (value < 0 && base == 10) {
+        buffer[i++] = '-';
+    }
+ 
+    buffer[i] = '\0'; // string de terminación nula
+ 
+    // invertir la string y devolverla
+    return reverse(buffer, 0, i - 1);
+}
+void swap(char *x, char *y) {
+    char t = *x; *x = *y; *y = t;
+}
+ 
+// Función para invertir `buffer[i…j]`
+char* reverse(char *buffer, int i, int j)
+{
+    while (i < j) {
+        swap(&buffer[i++], &buffer[j--]);
+    }
+ 
+    return buffer;
 }
 

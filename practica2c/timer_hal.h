@@ -1,7 +1,7 @@
 #include <LPC210X.H> // LPC21XX Peripheral Registers
 #include <stdint.h>
 #include <stddef.h>
-#include "swi.h"
+#include "SWI.h"
 
 #ifndef TIMER_HAL_H
 #define TIMER_HAL_H

@@ -3,6 +3,8 @@
 #include "gpio_hal.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include "tablero.h"
 #include <LPC210X.H> // LPC21XX Peripheral Registers
 
 #ifndef LINEA_SERIE_HAL_H

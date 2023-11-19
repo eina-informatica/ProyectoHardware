@@ -10,6 +10,7 @@
 #include "visualizar.h"
 #include "linea_serie_drv.h"
 #include "wd.h"
+#include "juego.h"
 
 
 void planificador(void);

@@ -5,7 +5,7 @@ static volatile enum estado_envio estado;
 static volatile enum estado_recibir maq_estado=inicio;
 
 void uart0_init(void (*funcion_callback)(char)){
-    PINSEL0  = 0x5; // Configuramos los pines P0.0 y P0.1 como TXD0 y RXD0
+    PINSEL0 = PINSEL0 | 0x5; // Configuramos los pines P0.0 y P0.1 como TXD0 y RXD0
     U0LCR = 0x83;//Set DLAB=1, Divisor Latch Access Bit y 8 bits de datos y bit de parada
     U0DLL = 97;//Establecemos la tasa de baudios
     U0LCR = 3;//Set DLAB=0,ya que hemos terminado de configurar la tasa de baudios
@@ -37,12 +37,12 @@ void uart0_ISR(void) __irq{
 }
 
 void gestion_caracter_hal(char c){
-    static int error=0;
+  static int error=0;
 	switch(maq_estado){
 		case inicio:
-!			if (c=='$'){	
+			if (c=='$'){	
 				//buffer = (char*)malloc(3 * sizeof(char));
-				 memset(buffer, 0, 3);
+				 //memset(buffer, 0, 3);
 				  if(error){gpio_hal_escribir(GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,0);}
           i=0;
 					error=0;
@@ -56,14 +56,21 @@ void gestion_caracter_hal(char c){
 							if (strcmp(buffer,"NEW")==0)
 							{
 									//crear tablero
-									FIFO_encolar(ev_RX_SERIE,*buffer);                            
+									FIFO_encolar(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);                            
 							}else if(strcmp(buffer,"END")==0){
 									//acabar partida
-									FIFO_encolar(ev_RX_SERIE,*buffer);
+									FIFO_encolar(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
 							}else if (buffer[1]=='-'&& isdigit(buffer[2]) && isdigit(buffer[0])){//comprobar que hace bien isdigit
 									//mover ficha
-									FIFO_encolar(ev_RX_SERIE,*buffer);
-							}else{
+									if (tablero_fila_valida(buffer[0]-'0') && tablero_columna_valida(buffer[2]-'0')){
+											FIFO_encolar(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
+									}else{
+											error=1;
+									}
+							}else if (strcmp(buffer,"TAB")==0){
+										FIFO_encolar(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
+							}
+							else{
 									error=1;}
 							maq_estado=inicio;
 					}else{
@@ -106,7 +113,7 @@ void gestion_caracter_hal(char c){
 void linea_serie_hal_continuar_envio(){
     if (buffer_envio[indice] == '\0') {
         estado = libre;
-        FIFO_encolar(ev_RX_SERIE,0);
+        FIFO_encolar(ev_TX_SERIE,0);
     }else {
         U0THR = buffer_envio[indice++];
     }

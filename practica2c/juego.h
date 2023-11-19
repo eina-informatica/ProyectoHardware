@@ -1,9 +1,5 @@
-//#include <inttypes.h>
-#include "cola.h"
-#include <inttypes.h>
 #include "timer_drv.h"
 #include "linea_serie_drv.h"
-#include "tablero.h"
 
 #ifndef JUEGO_H
 #define JUEGO_H
@@ -20,7 +16,7 @@ static unsigned int ganador = 0;
 static uint32_t tiempo_ini = 0;
 static uint32_t tiempo_fin = 0;
 static TABLERO cuadricula;
-
+static uint32_t t_init,t_fini;
 
 void juego_inicializar(void);
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData);
@@ -32,6 +28,9 @@ uint8_t columna, uint8_t color, int8_t delta_fila, int8_t delta_columna);
 void conecta_K_visualizar_tiempo(uint32_t tiempo);
 void conecta_K_visualizar_tablero(void);
 void conecta_K_reiniciar_tablero(void);
-void conecta_K__reiniciar_tablero(CELDA cuadricula[NUM_FILAS][NUM_COLUMNAS]);
+char* itoa(int value, char* buffer, int base);
+void swap(char *x, char *y);
+char* reverse(char *buffer, int i, int j);
+//void conecta_K_reiniciar_tablero(TABLERO cuadricula);
 
 #endif

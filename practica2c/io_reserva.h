@@ -15,5 +15,7 @@ humano y una longitud que posteriormente utilizar�n los otros m�dulos.
 
 #define  GPIO_SERIE_ERROR 30
 #define GPIO_SERIE_ERROR_BITS 1
+#define INI_Visualizar 16
+#define Tam_Visualizar 8
 
 #endif

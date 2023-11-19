@@ -5,4 +5,5 @@
 .\alarmas.o: cola.h
 .\alarmas.o: C:\Keil_v5\ARM\INC\Philips\LPC210X.H
 .\alarmas.o: gpio_hal.h
+.\alarmas.o: SWI.h
 .\alarmas.o: io_reserva.h

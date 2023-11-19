@@ -9,3 +9,4 @@
 .\hello_world.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 .\hello_world.o: cola.h
 .\hello_world.o: gpio_hal.h
+.\hello_world.o: SWI.h

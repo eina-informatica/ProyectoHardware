@@ -2,7 +2,6 @@
 
 int stat;
 
-
 //Se encargará de iniciar la cola 
 void planificador() {
 		uint32_t aux=0;
@@ -19,17 +18,20 @@ void planificador() {
 		//gpio_hal_escribir(0, 32, 0);
 		gpio_hal_escribir(14,2,3);
 		gpio_hal_sentido(14, 2, GPIO_HAL_PIN_DIR_INPUT);
-		
-    FIFO_inicializar(GPIO_OVERFLOW);
-	  alarma_inicializar();
+			
+		FIFO_inicializar(GPIO_OVERFLOW);
+		alarma_inicializar();
 		boton_init();
-		juego_inicializar();
+		//juego_inicializar();
 		inicializar_visualizar();
-    hello_world_inicializar();
+		hello_world_inicializar();
 		temporizador_drv_reloj(1, FIFO_encolar, Timer1);
 		alarma_activar(dormir,USUARIO_AUSENTE,0);
-
+		linea_serie_drv_iniciar();
+		WD_hal_init(3);
     while(1){
+				disable_irq();
+				WD_hal_feed();
 				if (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
 						if (FIFO_extraer(&event, &aux)) {
 								switch (event) {
@@ -71,7 +73,13 @@ void planificador() {
 										hello_world_tick_tack();
 										break;
 								case ev_RX_SERIE:
+										alarma_activar(dormir,0,0);
 										juego_tratar_evento(ev_RX_SERIE, aux);
+										break;
+									case ev_TX_SERIE:
+										juego_tratar_evento(ev_RX_SERIE, aux);
+										alarma_activar(dormir,USUARIO_AUSENTE,0);
+										WD_hal_test();
 										break;
 								default:
 										// Manejar otros casos aquí

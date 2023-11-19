@@ -30,20 +30,20 @@ SWI_Handler
                 BICEQ   R12, R12, #0xFF000000  ; Extract SWI Number
 
 ; add code to enable/disable the global IRQ flag
-                CMP R12, #0x02
-                BEQ read_irq_bit
+                CMP R12, #0x01
+                BEQ __read_irq_bit
 
                 CMP R12, #0xFF
-                BEQ enable_irq
+                BEQ __enable_irq
 
                 CMP R12, #0xFE
-                BEQ disable_irq
+                BEQ __disable_irq
 
                 CMP R12, #0xFD
-                BEQ disable_fiq
+                BEQ __disable_fiq
 
                 CMP R12, #0xFC
-                BEQ disable_irq_fiq
+                BEQ __disable_irq_fiq
 
 
                 LDR     R8, SWI_Count
@@ -76,7 +76,7 @@ SWI_Table
 ;               ...
 SWI_End
 
-                EXTERN shared_var [DATA,SIZE=4]
+                ;EXTERN shared_var [DATA,SIZE=4] FUERAAA!!
 
 ; __decrease_var
 ;                 LDR R8, =shared_var
@@ -87,7 +87,7 @@ SWI_End
 ;                 MSR     SPSR_cxsf, R12         ; Set SPSR
 ;                 LDMFD   SP!, {R12, PC}^        ; Restore R12 and Return
 
-read_irq_bit
+__read_irq_bit
 
 			LDMFD SP!, {R8, R12}
 			MRS R0, SPSR
@@ -97,26 +97,29 @@ read_irq_bit
 			LDMFD SP!, {R12, PC}^
 
 
-disable_fiq
+__disable_fiq
             LDMFD SP!, {R8, R12}
              MRS R0, SPSR
              ORR R0, R0, #F_Bit
              MSR SPSR_cxsf, R0
             LDMFD SP!, {R12, PC}^ ; Restore R12 and Return
-enable_irq
+__enable_irq
             LDMFD SP!, {R8, R12}
             MRS R0, SPSR
-            BIC R0, R0, #I_Bit
+            ;BIC R0, R0, #I_Bit
+			ORR R0, R0, #I_Bit
             MSR SPSR_cxsf, R0
             LDMFD SP!, {R12, PC}^ ; Restore R12 and Return
 
-disable_irq
+__disable_irq
             LDMFD SP!, {R8, R12}
             MRS R0, SPSR
-            ORR R0, R0, #I_Bit
+            ;ORR R0, R0, #I_Bit
+			;AND R0, R0, #I_Bit
+			BIC R0, R0, #I_Bit
             MSR SPSR_cxsf, R0
             LDMFD SP!, {R12, PC}^ ; Restore R12 and Return
-disable_irq_fiq
+__disable_irq_fiq
             LDMFD SP!, {R8, R12}
             MRS R0, SPSR
             ORR R0, R0, #I_Bit:OR:F_Bit

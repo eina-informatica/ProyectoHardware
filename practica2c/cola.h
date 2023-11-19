@@ -1,6 +1,7 @@
 #include <LPC210X.H>
 #include <stdint.h>
 #include "gpio_hal.h"
+#include "SWI.h"
 #include "io_reserva.h"
 
 #ifndef COLA_H
@@ -26,7 +27,8 @@ enum Evento {
     ev_VISUALIZAR_CUENTA,
     ev_LATIDO,
     ev_VISUALIZAR_HELLO,
-    ev_RX_SERIE
+    ev_RX_SERIE,
+		ev_TX_SERIE
 };
 
 typedef enum Evento EVENTO_T;

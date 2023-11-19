@@ -7,7 +7,11 @@
     "alarmas.h": "c",
     "cola.h": "c",
     "random": "c",
-    "linea_serie_hal.h": "c"
+    "linea_serie_hal.h": "c",
+    "cstdio": "c",
+    "tablero.h": "c",
+    "stdint.h": "c",
+    "juego.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

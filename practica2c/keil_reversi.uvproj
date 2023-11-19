@@ -577,9 +577,9 @@
               <FilePath>.\botones.h</FilePath>
             </File>
             <File>
-              <FileName>swi.h</FileName>
+              <FileName>SWI.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\swi.h</FilePath>
+              <FilePath>.\SWI.h</FilePath>
             </File>
             <File>
               <FileName>wd.h</FileName>
