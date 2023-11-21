@@ -49,3 +49,4 @@
 .\main.o: cola.h
 .\main.o: gpio_hal.h
 .\main.o: gpio_hal.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

@@ -646,6 +646,11 @@
               <FileType>1</FileType>
               <FilePath>.\tablero.c</FilePath>
             </File>
+            <File>
+              <FileName>SWI_Table.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\SWI_Table.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

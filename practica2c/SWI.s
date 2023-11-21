@@ -11,7 +11,7 @@
 
 I_Bit           EQU 0x80 ; when I bit is set, IRQ is disabled
 F_Bit           EQU 0x40 ; when F bit is set, FIQ is disabled
-T_Bit           EQU     0x20
+T_Bit           EQU 0x20
 
                 PRESERVE8                      ; 8-Byte aligned Stack
                 AREA    SWI_Area, CODE, READONLY
@@ -32,16 +32,12 @@ SWI_Handler
 ; add code to enable/disable the global IRQ flag
                 CMP R12, #0x01
                 BEQ __read_irq_bit
-
                 CMP R12, #0xFF
                 BEQ __enable_irq
-
                 CMP R12, #0xFE
                 BEQ __disable_irq
-
                 CMP R12, #0xFD
                 BEQ __disable_fiq
-
                 CMP R12, #0xFC
                 BEQ __disable_irq_fiq
 

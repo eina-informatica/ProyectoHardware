@@ -9,10 +9,11 @@
 }*/
 
 int main (void) {
-	//planificador();
+
+	planificador();
 	
-	FIFO_inicializar(GPIO_OVERFLOW);
-	FIFO_encolar(0, 0);
+/*	FIFO_inicializar(GPIO_OVERFLOW);
+	FIFO_encolar(1, 0);*/
 	
 	//linea_serie_drv_enviar_array("test");
 	//conecta_K_visualizar_tablero();

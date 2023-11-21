@@ -1,5 +1,6 @@
 #include "timer_drv.h"
 #include "linea_serie_drv.h"
+#include <stdio.h>
 
 #ifndef JUEGO_H
 #define JUEGO_H
@@ -16,7 +17,7 @@ static unsigned int ganador = 0;
 static uint32_t tiempo_ini = 0;
 static uint32_t tiempo_fin = 0;
 static TABLERO cuadricula;
-static uint32_t t_init,t_fini;
+static uint32_t t_init,t_fini,t_total;
 
 void juego_inicializar(void);
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData);
@@ -31,6 +32,7 @@ void conecta_K_reiniciar_tablero(void);
 char* itoa(int value, char* buffer, int base);
 void swap(char *x, char *y);
 char* reverse(char *buffer, int i, int j);
+void uint32_to_char(uint32_t num, char* str);
 //void conecta_K_reiniciar_tablero(TABLERO cuadricula);
 
 #endif

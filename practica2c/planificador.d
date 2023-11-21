@@ -49,3 +49,4 @@
 .\planificador.o: cola.h
 .\planificador.o: gpio_hal.h
 .\planificador.o: gpio_hal.h
+.\planificador.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

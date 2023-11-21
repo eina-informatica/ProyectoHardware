@@ -24,7 +24,7 @@ void temporizador_hal_empezar() {
 
 // Function to read the timer value in ticks
 uint64_t temporizador_hal_leer() {
-    return (count_timer*14999) + T0TC; // num de interrup * lo q tarda cada intrrup + lo que lleva el Tc de este instante
+    return /*(count_timer*14999) +*/ T0TC; // num de interrup * lo q tarda cada intrrup + lo que lleva el Tc de este instante
 		//return count_timer;
 }
 

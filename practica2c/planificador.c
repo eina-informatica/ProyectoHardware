@@ -29,10 +29,9 @@ void planificador() {
 		alarma_activar(dormir,USUARIO_AUSENTE,0);
 		linea_serie_drv_iniciar();
 		WD_hal_init(3);
-    while(1){
-				disable_irq();
+    	while(1){
 				WD_hal_feed();
-				if (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
+			if (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
 						if (FIFO_extraer(&event, &aux)) {
 								switch (event) {
 								case Timer1:
@@ -77,7 +76,7 @@ void planificador() {
 										juego_tratar_evento(ev_RX_SERIE, aux);
 										break;
 									case ev_TX_SERIE:
-										juego_tratar_evento(ev_RX_SERIE, aux);
+										juego_tratar_evento(ev_TX_SERIE, aux);
 										alarma_activar(dormir,USUARIO_AUSENTE,0);
 										WD_hal_test();
 										break;
@@ -164,5 +163,51 @@ void planificador() {
 								}
 						}
 				}
+		}*/
+
+		// TEST DE ESCRIBIR UNA PALABRA MAL POR UART
+//		 while(1){
+//			WD_hal_feed();
+//			if (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
+//				if (FIFO_extraer(&event, &aux)) {
+//					switch (event) {
+//					case ev_RX_SERIE:
+//						alarma_activar(dormir,0,0);
+//						juego_tratar_evento(ev_RX_SERIE, aux);
+//						break;
+//					case ev_TX_SERIE:
+//						juego_tratar_evento(ev_TX_SERIE, aux);
+//						alarma_activar(dormir,USUARIO_AUSENTE,0);
+//						WD_hal_test();
+//						break;
+//					default:
+//						// Manejar otros casos aquí
+//						break;
+//					}
+//				}
+//			}
+//		}
+
+		// TEST DE FILA ERRÓNEA
+		/*while(1){
+			WD_hal_feed();
+			if (!gpio_hal_leer(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS)) {
+				if (FIFO_extraer(&event, &aux)) {
+					switch (event) {
+					case ev_RX_SERIE:
+						alarma_activar(dormir,0,0);
+						juego_tratar_evento(ev_RX_SERIE, aux);
+						break;
+					case ev_TX_SERIE:
+						juego_tratar_evento(ev_TX_SERIE, aux);
+						alarma_activar(dormir,USUARIO_AUSENTE,0);
+						WD_hal_test();
+						break;
+					default:
+						// Manejar otros casos aquí
+						break;
+					}
+				}
+			}
 		}*/
 }

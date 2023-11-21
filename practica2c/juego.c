@@ -7,7 +7,7 @@ void juego_inicializar(void){
     row = 0, column = 0, color = 1;
     final = 0, ganador = 0;
     tiempo_ini = 0, tiempo_fin = 0;
-    t_fini=0, t_init=0;
+    t_fini=0, t_init=0,t_total=0;
 		
 		tablero_inicializar(&cuadricula);
 }
@@ -36,10 +36,12 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 							comandito[3] = '\0';  // Añade el carácter nulo para terminar la cadena
 							if (strcmp(comandito,"END")==0){
 									tablero_inicializar(&cuadricula);
+								linea_serie_drv_enviar_array("PARTIDA ACABADA :  ");
 							}else if (strcmp(comandito,"NEW")==0){
 									juego_inicializar();
+								linea_serie_drv_enviar_array("PARTIDA EMPEZADA : ");
 							}else if (strcmp(comandito,"TAB")==0){
-                                    t_init=clock_getus();
+                  t_init=clock_getus();
 									conecta_K_visualizar_tablero();
 							}else if (comandito[1]=='-'&& isdigit(comandito[2]) && isdigit(comandito[0])){
 
@@ -48,20 +50,44 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 						break;
                 case ev_TX_SERIE:
 										t_fini=clock_getus();
-                    conecta_K_visualizar_tiempo(t_fini-t_init);
+								t_total=t_fini-t_init;
+                    conecta_K_visualizar_tiempo(t_total);
                         break;
 				default:
 						break;
 		}
 }
-
+//tenemo que convertir el uint que recibimos en un char* para poder enviarlo por la linea serie
 void conecta_K_visualizar_tiempo(uint32_t tiempo){
-    char buffer[10];
-    char *p;
-    p = itoa(tiempo, buffer, 10);
-    linea_serie_drv_enviar_array(p);
+        char tiempo_char[33];
+        uint32_to_char(tiempo, tiempo_char);
+        linea_serie_drv_enviar_array(tiempo_char);
+  
 }
 
+void uint32_to_char(uint32_t num, char* str) {
+    int i = 0;
+    uint32_t temp = num;
+    uint32_t divisor = 1;
+
+    // Calcula el divisor necesario para obtener el dígito más significativo
+    while (temp / divisor >= 10) {
+        divisor *= 10;
+    }
+
+    // Convierte cada dígito en un carácter y lo almacena en la cadena
+    while (divisor > 0) {
+        uint32_t digit = num / divisor;
+        str[i++] = digit + '0';
+        num %= divisor;
+        divisor /= 10;
+    }
+
+    // Agrega el carácter nulo al final de la cadena
+    str[i] = '\n';
+    i++;
+    str[i] = '\0';
+}
 int juego_leer_cuenta(void){
     return cuenta;
 }
@@ -120,34 +146,37 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
 void conecta_K_visualizar_tablero(void){
 	  unsigned int i,j;
 		unsigned int indice;
+		char * aux;
+		char * tablero;
+		tablero=aux;
 	
-    // Se inicializa el buffer 'tablero' con ceros
-    memset(tablero, 0, 200);
+	
 
     // Variable para el índice en el buffer 'tablero'
 		indice = 0;
+	
 
     // Ciclo para recorrer las filas del tablero en orden descendente
     for (i = MAX_NO_CERO; i > 0; i--) {
         // Se añade el número de la fila al buffer 'tablero'
-        tablero[indice++] = i + '0';
-        tablero[indice++] = '|';
+        aux[indice++] = i + '0';
+        aux[indice++] = '|';
 
         // Ciclo para recorrer las columnas del tablero
         for (j = 1; j <= NUM_FILAS; j++) {
 			CELDA celda = tablero_leer_celda(&cuadricula, i, j);
             // Se determina el contenido de la celda y se añade al buffer 'tablero'
             if (celda == 0x05) {
-                tablero[indice++] = 'B';
+                aux[indice++] = 'B';
             } else if (celda == 0x06) {
-                tablero[indice++] = 'N';
+                aux[indice++] = 'N';
             } else if (celda == 0x00) {
-                tablero[indice++] = ' ';
+                aux[indice++] = ' ';
             }
-            tablero[indice++] = '|';
+            aux[indice++] = '|';
         }
         // Se agrega un salto de línea al buffer 'tablero'
-        tablero[indice++] = '\n';
+        aux[indice++] = '\n';
     }
 
     // Ciclo para agregar una línea divisoria en la parte inferior del tablero
@@ -159,20 +188,20 @@ void conecta_K_visualizar_tablero(void){
     //tablero[indice++] = '\n';
 
     // Se añade un '-' y '|' para etiquetar las columnas del tablero
-    tablero[indice++] = '-';
-    tablero[indice++] = '|';
+    aux[indice++] = '-';
+    aux[indice++] = '|';
 
     // Ciclo para añadir los números de las columnas al buffer 'tablero'
     for ( i = 1; i <= NUM_FILAS; i++) {
-        tablero[indice++] = i + '0';
-        tablero[indice++] = '|';
+        aux[indice++] = i + '0';
+        aux[indice++] = '|';
     }
 
     // Se añade un salto de línea al buffer 'tablero'
-    tablero[indice++] = '\n';
+    aux[indice++] = '\n';
 
     // Se añade un salto de línea adicional al buffer 'tablero'
-    tablero[indice++] = '\n';
+    aux[indice++] = '\n';
 
     // Se envía el contenido del buffer 'tablero' a través de UART0
     linea_serie_drv_enviar_array(tablero);
@@ -216,11 +245,10 @@ char* itoa(int value, char* buffer, int base)
     if (value < 0 && base == 10) {
         buffer[i++] = '-';
     }
- 
     buffer[i] = '\0'; // string de terminación nula
- 
+		
     // invertir la string y devolverla
-    return reverse(buffer, 0, i - 1);
+    return reverse(buffer, 0, i - 1);;
 }
 void swap(char *x, char *y) {
     char t = *x; *x = *y; *y = t;
@@ -232,7 +260,7 @@ char* reverse(char *buffer, int i, int j)
     while (i < j) {
         swap(&buffer[i++], &buffer[j--]);
     }
- 
+		
     return buffer;
 }
 

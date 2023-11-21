@@ -21,3 +21,4 @@
 .\juego.o: celda.h
 .\juego.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 .\juego.o: config_conecta_K.h
+.\juego.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
