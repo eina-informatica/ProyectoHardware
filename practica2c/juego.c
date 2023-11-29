@@ -1,6 +1,58 @@
 #include "juego.h"
 
-void juego_inicializar(void){
+enum Estado {
+    INICIO,
+    TURNO_NUEVO,
+    JUGADA_NUEVA,
+    FINAL
+};
+
+static void (*callback_f)(EVENTO_T, uint32_t);
+static void (*callback_f2)(char*);
+static uint32_t cuenta;
+static uint32_t intervalo;
+static uint32_t ant_intervalo;
+static char tablero[200];
+static CELDA celda;
+static uint8_t row = 0;
+static uint8_t column = 0;
+static uint8_t color = 1;
+static unsigned int final = 0;
+static unsigned int ganador = 0;
+static uint32_t tiempo_ini = 0;
+static uint32_t tiempo_fin = 0;
+static TABLERO cuadricula;
+static uint32_t t_init,t_fini,t_total;
+static char comandito[4];
+static int hecho=0;
+static enum Estado estado;
+
+// Función invocada tras tratar un evento para gestionar un potencial cambio de estado
+void gestionar_estado() {
+    switch(estado) {
+        case INICIO:
+            // Mostrar instrucciones
+            callback_f2("Has iniciado el juego ConectaK.\nUn juego de dos jugadores cuyo objetivo es completar una lídea de K elementos.\nEn cada turno, el jugador puede introducir por consola $F-C! donde F es la fila y C la columna en la que quiere colocar ficha.\nA continuación se mostrará por pantalla una previsualización de como quedaría la jugada,\n tras 3 segundos se confirmará la jugada sino se cancela pulsando el botón.\nEn cualquier momento se puede cancelar la partida pulsando el botón 2 o introduciento $END! por consola.\n");
+            //callback_f2("PARTIDA EMPEZADA\n");
+            break;
+        case TURNO_NUEVO:
+            // Mostrar tablero
+            conecta_K_visualizar_tablero();
+            break;
+        case JUGADA_NUEVA:
+            // Mostrar tablero con futura ficha colocada
+            callback_f2("La jugada se confirmará en 3 segundos\n Pulsa el botón 1 para cancelar.\n");
+        case FINAL:
+            // Mostrar ganador
+            callback_f2("PARTIDA ACABADA\n");
+        default:
+            break;
+    }
+}
+
+void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(char*)){
+    callback_f = callback; // Encolar en FIFO
+    callback_f2 = callback2; // Enviar por línea serie
     cuenta=0;
     intervalo=0;
     ant_intervalo=0;
@@ -8,60 +60,73 @@ void juego_inicializar(void){
     final = 0, ganador = 0;
     tiempo_ini = 0, tiempo_fin = 0;
     t_fini=0, t_init=0,t_total=0;
+    estado = INICIO;
 		
-		tablero_inicializar(&cuadricula);
+	  tablero_inicializar(&cuadricula);
 }
 
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
-        char comandito[4];
-		switch(ID_evento) {
-				case Eint1: 
-						cuenta++;
-  					FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
-						intervalo=temporizador_drv_leer()-ant_intervalo;
-						ant_intervalo = temporizador_drv_leer(); 
-						break;
-				case Eint2:
-						cuenta--;
-						FIFO_encolar(ev_VISUALIZAR_CUENTA,cuenta);
-						intervalo=temporizador_drv_leer()-ant_intervalo;
-						ant_intervalo = temporizador_drv_leer(); 
-						break;
-				case ev_RX_SERIE:
-							// aux=(char*) &auxData;
-							// comandito[1]=aux[1];
-                            comandito[0] = (auxData >> 16) & 0xFF;  // Byte más significativo
-							comandito[1] = (auxData >> 8) & 0xFF;
-							comandito[2] = auxData & 0xFF;  // Byte menos significativo
-							comandito[3] = '\0';  // Añade el carácter nulo para terminar la cadena
-							if (strcmp(comandito,"END")==0){
-									tablero_inicializar(&cuadricula);
-								linea_serie_drv_enviar_array("PARTIDA ACABADA :  ");
-							}else if (strcmp(comandito,"NEW")==0){
-									juego_inicializar();
-								linea_serie_drv_enviar_array("PARTIDA EMPEZADA : ");
-							}else if (strcmp(comandito,"TAB")==0){
-                  t_init=clock_getus();
-									conecta_K_visualizar_tablero();
-							}else if (comandito[1]=='-'&& isdigit(comandito[2]) && isdigit(comandito[0])){
-
-									//hacer _jugada(aux[0],aux[2])
-						}
-						break;
-                case ev_TX_SERIE:
-										t_fini=clock_getus();
-								t_total=t_fini-t_init;
-                    conecta_K_visualizar_tiempo(t_total);
-                        break;
-				default:
-						break;
-		}
+    switch(ID_evento) {
+        case Eint1: 
+            cuenta++;
+            callback_f(ev_VISUALIZAR_CUENTA,cuenta);
+            intervalo=temporizador_drv_leer()-ant_intervalo;
+            ant_intervalo = temporizador_drv_leer();
+            if (estado == JUGADA_NUEVA) {
+                estado = TURNO_NUEVO;
+            }
+            break;
+        case Eint2:
+            cuenta--;
+            callback_f(ev_VISUALIZAR_CUENTA,cuenta);
+            intervalo=temporizador_drv_leer()-ant_intervalo;
+            ant_intervalo = temporizador_drv_leer(); 
+            break;
+            estado = FINAL;
+        case ev_RX_SERIE:
+            // aux=(char*) &auxData;
+            // comandito[1]=aux[1];
+            comandito[0] = (auxData >> 16) & 0xFF;  // Byte más significativo
+            comandito[1] = (auxData >> 8) & 0xFF;
+            comandito[2] = auxData & 0xFF;  // Byte menos significativo
+            comandito[3] = '\0';  // Añade el carácter nulo para terminar la cadena
+            if (strcmp(comandito,"END")==0){
+                tablero_inicializar(&cuadricula);
+                //callback_f2("PARTIDA ACABADA\n");
+                estado = FINAL;
+            }else if (strcmp(comandito,"NEW")==0){
+                // juego_inicializar();
+                //callback_f2("PARTIDA EMPEZADA\n");
+                estado = INICIO;
+								gestionar_estado();
+            }else if (strcmp(comandito,"TAB")==0){
+                t_init=clock_getus();
+                conecta_K_visualizar_tablero();
+            }else if (comandito[1]=='-'&& isdigit(comandito[2]) && isdigit(comandito[0])){
+                //hacer _jugada(aux[0],aux[2])
+            }
+            break;
+        case ev_TX_SERIE:
+            if((strcmp(comandito,"TAB")==0) && (hecho==0)){
+                t_fini=clock_getus();
+                t_total=t_fini-t_init;
+                conecta_K_visualizar_tiempo(t_total);
+                hecho=1;
+                }else if(hecho==1){
+                    hecho=0;
+                    callback_f(restart,0);
+                }
+            break;
+        default:
+            break;
+    }
 }
-//tenemo que convertir el uint que recibimos en un char* para poder enviarlo por la linea serie
+
+// tenemoS que convertir el uint que recibimos en un char* para poder enviarlo por la linea serie
 void conecta_K_visualizar_tiempo(uint32_t tiempo){
         char tiempo_char[33];
         uint32_to_char(tiempo, tiempo_char);
-        linea_serie_drv_enviar_array(tiempo_char);
+        callback_f2(tiempo_char);
   
 }
 
@@ -70,22 +135,26 @@ void uint32_to_char(uint32_t num, char* str) {
     uint32_t temp = num;
     uint32_t divisor = 1;
 
-    // Calcula el divisor necesario para obtener el dígito más significativo
+    // Calcular el divisor necesario para obtener el dígito más significativo
     while (temp / divisor >= 10) {
         divisor *= 10;
     }
 
-    // Convierte cada dígito en un carácter y lo almacena en la cadena
+    // Convertir cada dígito en un carácter y lo almacena en la cadena
     while (divisor > 0) {
         uint32_t digit = num / divisor;
         str[i++] = digit + '0';
         num %= divisor;
         divisor /= 10;
     }
+		
+		// Agregar unidad de tiempo
+		str[i++] = ' ';
+		str[i++] = 'u';
+		str[i++] = 's';
 
-    // Agrega el carácter nulo al final de la cadena
-    str[i] = '\n';
-    i++;
+    // Agregar el carácter nulo al final de la cadena
+    str[i++] = '\n';
     str[i] = '\0';
 }
 int juego_leer_cuenta(void){
@@ -143,70 +212,52 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
     return 1 + conecta_K_buscar_alineamiento(t, nueva_fila, nueva_columna, color, delta_fila, delta_columna);
 }
 
-void conecta_K_visualizar_tablero(void){
-	  unsigned int i,j;
-		unsigned int indice;
-		char * aux;
-		char * tablero;
-		tablero=aux;
-	
-	
-
-    // Variable para el índice en el buffer 'tablero'
-		indice = 0;
-	
+void conecta_K_visualizar_tablero(void) {
+    static char tablero[200];
+    unsigned int indice = 0;
+    unsigned int i, j;
 
     // Ciclo para recorrer las filas del tablero en orden descendente
     for (i = MAX_NO_CERO; i > 0; i--) {
         // Se añade el número de la fila al buffer 'tablero'
-        aux[indice++] = i + '0';
-        aux[indice++] = '|';
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
 
         // Ciclo para recorrer las columnas del tablero
         for (j = 1; j <= NUM_FILAS; j++) {
-			CELDA celda = tablero_leer_celda(&cuadricula, i, j);
+            CELDA celda = tablero_leer_celda(&cuadricula, i, j);
             // Se determina el contenido de la celda y se añade al buffer 'tablero'
-            if (celda == 0x05) {
-                aux[indice++] = 'B';
+            if (celda == 0x00) {
+                // Celda vacía
+                tablero[indice++] = ' ';
+            } else if (celda == 0x05) {
+                // Celda ocupada por jugador 1
+                tablero[indice++] = 'B';
             } else if (celda == 0x06) {
-                aux[indice++] = 'N';
-            } else if (celda == 0x00) {
-                aux[indice++] = ' ';
+                // Celda ocupada por jugador 2
+                tablero[indice++] = 'N';
             }
-            aux[indice++] = '|';
+            tablero[indice++] = '|';
         }
-        // Se agrega un salto de línea al buffer 'tablero'
-        aux[indice++] = '\n';
+
+        tablero[indice++] = '\n';
     }
-
-    // Ciclo para agregar una línea divisoria en la parte inferior del tablero
-    /*for ( i = 1; i < 16; i++) {
-        tablero[indice++] = '-';
-    }*/
-
-    // Se añade un salto de línea al buffer 'tablero'
-    //tablero[indice++] = '\n';
-
-    // Se añade un '-' y '|' para etiquetar las columnas del tablero
-    aux[indice++] = '-';
-    aux[indice++] = '|';
+    tablero[indice++] = '-';
+    tablero[indice++] = '|';
 
     // Ciclo para añadir los números de las columnas al buffer 'tablero'
     for ( i = 1; i <= NUM_FILAS; i++) {
-        aux[indice++] = i + '0';
-        aux[indice++] = '|';
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
     }
 
-    // Se añade un salto de línea al buffer 'tablero'
-    aux[indice++] = '\n';
+    tablero[indice++] = '\n';
+    tablero[indice] = '\0';
 
-    // Se añade un salto de línea adicional al buffer 'tablero'
-    aux[indice++] = '\n';
-
-    // Se envía el contenido del buffer 'tablero' a través de UART0
-    linea_serie_drv_enviar_array(tablero);
-		//linea_serie_drv_enviar_array("eina");
+    callback_f2(tablero);
 }
+
+
 
 char* itoa(int value, char* buffer, int base)
 {
@@ -226,8 +277,7 @@ char* itoa(int value, char* buffer, int base)
  
         if (r >= 10) {
             buffer[i++] = 65 + (r - 10);
-        }
-        else {
+        } else {
             buffer[i++] = 48 + r;
         }
  
@@ -250,13 +300,13 @@ char* itoa(int value, char* buffer, int base)
     // invertir la string y devolverla
     return reverse(buffer, 0, i - 1);;
 }
+
 void swap(char *x, char *y) {
     char t = *x; *x = *y; *y = t;
 }
  
 // Función para invertir `buffer[i…j]`
-char* reverse(char *buffer, int i, int j)
-{
+char* reverse(char *buffer, int i, int j){
     while (i < j) {
         swap(&buffer[i++], &buffer[j--]);
     }

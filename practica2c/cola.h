@@ -1,8 +1,9 @@
-#include <LPC210X.H>
 #include <stdint.h>
 #include "gpio_hal.h"
+#include "evento.h"
 #include "SWI.h"
-#include "io_reserva.h"
+#include <stddef.h>
+
 
 #ifndef COLA_H
 #define COLA_H
@@ -10,41 +11,13 @@
 #define SIZE 32
 #define max_Eventos 12
 
-/*Definición del tipo de datos EVENTO_T: Conjunto de eventos posibles. En
-el fichero de cabecera se incluirá el tipo de datos y el conjunto de
-posibles eventos identificados con nombre humano. Reservemos el ID
-VOID con valor cero para inicializar la cola.*/
 
-enum Evento {
-    Timer0,
-    Timer1,
-    ALARMA_OVERFLOW,
-    Eint1,
-    Eint2,
-    comprobar1,
-		comprobar2,
-    dormir,
-    ev_VISUALIZAR_CUENTA,
-    ev_LATIDO,
-    ev_VISUALIZAR_HELLO,
-    ev_RX_SERIE,
-		ev_TX_SERIE
-};
 
-typedef enum Evento EVENTO_T;
-//typedef uint8_t EVENTO_T;
-
-struct ITEM
-{
-    EVENTO_T id;
-    uint32_t auxDATA;
-};
 
 /* Inicialización de la
 cola. Se le pasa como parámetro el pin del GPIO utilizado para marcar
 errores.*/
-void FIFO_inicializar(GPIO_HAL_PIN_T pin_overflow);
-
+void FIFO_inicializar(GPIO_HAL_PIN_T gpio_of, uint8_t gpio_of_bits,gpio_hal_pin_dir_t sentido,void (*callback)(GPIO_HAL_PIN_T, uint8_t, uint32_t),void (*callback_sentido)(GPIO_HAL_PIN_T, uint8_t, gpio_hal_pin_dir_t));
 /* Esta función guardará en la cola el evento. El campo ID_evento, que permita
 identificar el evento (p.e. qué interrupción ha saltado) y el campo
 auxData en caso de que el evento necesite pasar información extra.*/
