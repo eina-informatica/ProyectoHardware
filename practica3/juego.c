@@ -13,26 +13,31 @@ enum Estado {
 
 static void (*callback_f)(EVENTO_T, uint32_t);
 static void (*callback_f2)(char*);
+static void (*callback_alarma)(EVENTO_T, uint32_t, uint32_t);
 static uint32_t cuenta;
 static uint32_t intervalo;
 static uint32_t ant_intervalo;
-static char tablero[200];
-static CELDA celda;
-static uint8_t row = 0;
-static uint8_t column = 0;
+static char tablero[400];
+//static CELDA celda;
+static uint8_t fila = 0;
+static uint8_t columna = 0;
 static uint8_t color = 1;
-static unsigned int final = 0;
+/*static unsigned int final = 0;
 static unsigned int ganador = 0;
-static uint32_t tiempo_ini = 0;
-static uint32_t tiempo_fin = 0;
+*/
 static TABLERO cuadricula;
 static uint32_t t_init,t_fini,t_total;
 static char comandito[4];
 //static int hecho=0;
 static enum Estado estado;
 static int linea_serie_libre = 1; // ¿Línea serie está libre?
-static int contador_turno;
+static int primer_turno;
+static int turno;
+static int jugador;
 
+int isDigit(char c) {
+    return (c >= '0' && c <= '9');
+}
 // Función invocada tras tratar un evento para gestionar un potencial cambio de estado
 void gestionar_estado() {
     switch(estado) {
@@ -44,13 +49,26 @@ void gestionar_estado() {
             break;
         case TURNO_NUEVO:
             // Mostrar tablero
-            conecta_K_visualizar_tablero();
+            if (primer_turno >= 0) {
+                color=1;
+                tablero_insertar_color(&cuadricula, fila, columna, color);
+                //introducir_ficha(&cuadricula,jugador);
+                conecta_K_visualizar_tablero(0);
+            }else if (turno%2==0)
+            {
+                jugador++;
+                conecta_K_visualizar_tablero(jugador+1%2);
+            }else if (turno%2==1){
+                conecta_K_visualizar_tablero(jugador+1%2);
+            }
+            
+            //conecta_K_visualizar_tablero();
             
             //conecta_K_visualizar_tablero();
             break;
         case JUGADA_NUEVA:
+            
             // Mostrar tablero con futura ficha colocada
-            callback_f2("La jugada se confirmará en 3 segundos\n Pulsa el botón 1 para cancelar.\n");
         case FINAL:
             // Mostrar ganador
             callback_f2("PARTIDA ACABADA\n");
@@ -59,18 +77,19 @@ void gestionar_estado() {
     }
 }
 
-void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(char*)){
+void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(char*), void (*callback3)(EVENTO_T, uint32_t, uint32_t)){
     callback_f = callback; // Encolar en FIFO
     callback_f2 = callback2; // Enviar por línea serie
+    callback_alarma = callback3;
     cuenta=0;
     intervalo=0;
     ant_intervalo=0;
-    row = 0, column = 0, color = 1;
-    final = 0, ganador = 0;
-    tiempo_ini = 0, tiempo_fin = 0;
+    primer_turno=Q_SIZE;
+    turno=0;
+  /*  row = 0, column = 0,*/ color = 1;
+//    final = 0, ganador = 0;
     t_fini=0, t_init=0,t_total=0;
     estado = INICIO;
-    contador_turno = 0;
 		
 	tablero_inicializar(&cuadricula);
 	gestionar_estado(); // Nada más inicializar mostramos instrucciones por pantalla
@@ -83,6 +102,10 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
             callback_f(ev_VISUALIZAR_CUENTA,cuenta);
             intervalo=temporizador_drv_leer()-ant_intervalo;
             ant_intervalo = temporizador_drv_leer();
+            if (JUGADA_NUEVA_ESPERA)
+            {
+                callback_alarma(ev_confirmacion, 0, 0);
+            }
             if (estado == JUGADA_NUEVA) {
                 estado = TURNO_NUEVO;
             }
@@ -109,7 +132,6 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 								if (linea_serie_libre && estado == INICIO_ESPERA) {
                                         linea_serie_libre = 0;
 										estado = TURNO_NUEVO;
-                                        contador_turno++;
 										gestionar_estado();
 								}
                 // juego_inicializar();
@@ -120,9 +142,17 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 								}*/
             }else if (strcmp(comandito,"TAB")==0){
                 t_init=clock_getus();
-                conecta_K_visualizar_tablero();
-            }else if (comandito[1]=='-'&& isdigit(comandito[2]) && isdigit(comandito[0])){
-                //hacer _jugada(aux[0],aux[2])
+                conecta_K_visualizar_tablero(15);
+            }else if (comandito[1]=='-'){
+                if (TURNO_NUEVO){
+                    if(isDigit(comandito[2]) && isDigit(comandito[0])){
+                        fila=comandito[0]-'0';
+                        columna=comandito[2]-'0';
+                        estado=JUGADA_NUEVA;
+                        visualizar_jugada(comandito[0]-'0',comandito[2]-'0');
+                    }
+                   
+                }
             }
             break;
         case ev_TX_SERIE:
@@ -137,6 +167,19 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 						} else {
 								linea_serie_libre = 1;
 						}
+            break;
+        case ev_confirmacion:
+            if (estado == JUGADA_NUEVA_ESPERA) {
+                if(primer_turno > 0){
+                    primer_turno--;
+                    estado = TURNO_NUEVO;
+                    gestionar_estado();
+                }else{
+                    estado = TURNO_NUEVO;
+                    turno++;
+                    gestionar_estado();
+                }
+            }
             break;
         default:
             break;
@@ -232,17 +275,16 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
     return 1 + conecta_K_buscar_alineamiento(t, nueva_fila, nueva_columna, color, delta_fila, delta_columna);
 }
 
-void conecta_K_visualizar_tablero(void) {
+void conecta_K_visualizar_tablero(int player) {
     const char cabecera1[] = "Turno del 1er moro\n";
     const char cabecera2[] = "Turno del 2do moro\n";
-    static char tablero[200];
     unsigned int indice = 0;
     unsigned int i, j;
-     if (contador_turno%2==1){
+     if (player==0){
         color=0;
         strcpy(tablero, cabecera1);
         indice = strlen(cabecera1);
-    } else {
+    } else if (player==1) {
         color=1;
         strcpy(tablero, cabecera2);
         indice = strlen(cabecera2);
@@ -287,7 +329,99 @@ void conecta_K_visualizar_tablero(void) {
     callback_f2(tablero);
 }
 
+void visualizar_jugada(uint32_t fila, uint32_t columna){
+    unsigned int indice = 0;
+    const char cabecera3[] = "Jugada erronea, posicion ya ocupada\n";
+	const char cabecera4[] = "Previsualizacion de la jugada\n";
+    const char cabecera5[] = "Pulsa boton 1 para cancelar o espera 3 segundos para confirmar\n";
+    int mal=0;
+    unsigned int i, j;
+	strcpy(tablero, cabecera4);
+    indice += strlen(cabecera4);
+    // Ciclo para recorrer las filas del tablero en orden descendente
+    for (i = MAX_NO_CERO; i > 0; i--) {
+        // Se añade el número de la fila al buffer 'tablero'
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
 
+        // Ciclo para recorrer las columnas del tablero
+        for (j = 1; j <= NUM_FILAS; j++) {
+            CELDA celda = tablero_leer_celda(&cuadricula, i, j);
+            // Se determina el contenido de la celda y se añade al buffer 'tablero'
+            if (celda == 0x00) {
+                // Celda vacía
+                if ((i==fila) && (j==columna)) {
+                tablero[indice++] = '#';
+                } else {
+                tablero[indice++] = ' ';}
+            } else if (celda == 0x05) {
+                // Celda ocupada por jugador 1
+                if ((i==fila) && (j==columna)) {
+                    mal=1;
+                }
+                tablero[indice++] = 'B';
+            } else if (celda == 0x06) {
+                // Celda ocupada por jugador 2
+                if ((i==fila) && (j==columna)) {
+                    mal=1;
+                }
+                tablero[indice++] = 'N';
+            }
+            tablero[indice++] = '|';
+        }
+
+        tablero[indice++] = '\n';
+    }
+    tablero[indice++] = '-';
+    tablero[indice++] = '|';
+
+    // Ciclo para añadir los números de las columnas al buffer 'tablero'
+    for ( i = 1; i <= NUM_FILAS; i++) {
+        tablero[indice++] = i + '0';
+        tablero[indice++] = '|';
+    }
+    if (mal==1)
+    {   
+        tablero[indice++] = '\n';
+        strcat(tablero, cabecera3);
+        indice += strlen(cabecera3);
+    }else{
+        tablero[indice++] = '\n';
+        strcat(tablero, cabecera5);
+        indice += strlen(cabecera5);
+        estado = JUGADA_NUEVA_ESPERA;
+        callback_alarma(ev_confirmacion, 3000, 0);
+    }
+    
+    tablero[indice++] = '\n';
+    tablero[indice] = '\0';
+
+    callback_f2(tablero);
+}/*
+void introducir_ficha(char tablero[], CELDA* cuadricula, int player) {
+    // Obtener la posición de la ficha en el tablero
+    int i;
+    int j;
+    int fila = 0;
+    int columna = 0;
+    for (i = 0; i < NUM_FILAS; i++) {
+        for (j = 0; j < NUM_COLUMNAS; j++) {
+            if (tablero[i * (NUM_COLUMNAS + 1) + j] == '#') {
+                fila = i + 1;
+                columna = j + 1;
+                break;
+            }
+        }
+    }
+
+    // Insertar la ficha en la cuadrícula
+    if (player == 0) {
+        celda_poner_valor(cuadricula[(fila)][(columna)], 0x05);
+    } else if (player == 1) {
+        celda_poner_valor(cuadricula[(fila)][(columna)], 0x06);
+    }
+}
+*/
 
 char* itoa(int value, char* buffer, int base)
 {
@@ -343,4 +477,3 @@ char* reverse(char *buffer, int i, int j){
 		
     return buffer;
 }
-

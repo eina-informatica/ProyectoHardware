@@ -70,13 +70,13 @@ void gestion_caracter_hal(char c){
 									//acabar partida
 									callback_fuc(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
 							
-							}else if (buffer[1]=='-'&& isdigit(buffer[2]) && isdigit(buffer[0])){//comprobar que hace bien isdigit
+							}else if (buffer[1]=='-' /*&& isdigit(buffer[2]) && isdigit(buffer[0])*/){//comprobar que hace bien isdigit
 									//mover ficha
-									if (tablero_fila_valida(buffer[0]-'0') && tablero_columna_valida(buffer[2]-'0')){
-											callback_fuc(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
-									}else{
+									if (!(tablero_fila_valida(buffer[0]-'0') || tablero_columna_valida(buffer[2]-'0'))){
 											error=1;
 									}
+									callback_fuc(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
+									
 							}else if (strcmp(buffer,"TAB")==0){
 										callback_fuc(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
 							}

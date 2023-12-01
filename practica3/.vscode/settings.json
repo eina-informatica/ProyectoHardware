@@ -22,7 +22,8 @@
     "evento.h": "c",
     "string.h": "c",
     "power.h": "c",
-    "visualizar.h": "c"
+    "visualizar.h": "c",
+    "stdio.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

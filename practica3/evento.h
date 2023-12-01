@@ -20,6 +20,7 @@ enum Evento {
     ev_RX_SERIE,
 		ev_TX_SERIE,
     restart,
+    ev_confirmacion,
     kk=-1
 };
 
