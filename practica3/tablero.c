@@ -63,7 +63,7 @@ int tablero_insertar_color(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t co
 	
 	// encontrar primera posición libre en el vector
 	// de columnas de la fila correspondiente
-	for(; (col < MAX_NO_CERO) && (t->columnas[fila][col] != INVALIDO); ++col);
+	for(; (col <MAX_NO_CERO) && (t->columnas[fila][col] != INVALIDO); ++col);
 
 	// se ha llenado nuestra matriz estática
 	if(MAX_NO_CERO == col) {

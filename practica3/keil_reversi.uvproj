@@ -656,6 +656,11 @@
               <FileType>5</FileType>
               <FilePath>.\config_conecta_K.h</FilePath>
             </File>
+            <File>
+              <FileName>tablero_test.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\tablero_test.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

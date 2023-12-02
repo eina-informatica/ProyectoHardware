@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/moren/Desktop/UNIVERSIDAD/3º carrera/ProyectoHardware/practica2c/practica2c",
-      "program": "c:/Users/moren/Desktop/UNIVERSIDAD/3º carrera/ProyectoHardware/practica2c/practica2c/build/Debug/outDebug",
+      "cwd": "c:/Users/moren/Desktop/UNIVERSIDAD/3º carrera/ProyectoHardware/practica3",
+      "program": "c:/Users/moren/Desktop/UNIVERSIDAD/3º carrera/ProyectoHardware/practica3/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -27,8 +27,8 @@ void planificador() {
 		hello_world_inicializar(alarma_activar, GPIO_HELLO_WORLD, GPIO_HELLO_WORLD_BITS, GPIO_HAL_PIN_DIR_OUTPUT,gpio_hal_sentido);
 		temporizador_drv_reloj(1, FIFO_encolar, Timer1);
 		alarma_activar(dormir,USUARIO_AUSENTE,0);
-		linea_serie_drv_iniciar(FIFO_encolar,GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,alarma_activar);
-		juego_inicializar(FIFO_encolar,linea_serie_drv_enviar_array);
+		linea_serie_drv_iniciar(FIFO_encolar,GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,GPIO_COMANDO_ERROR,GPIO_COMANDO_BITS,alarma_activar);
+		juego_inicializar(FIFO_encolar,linea_serie_drv_enviar_array,alarma_activar);
 		WD_hal_init(3);
     	while(1){
 				WD_hal_feed();
@@ -80,6 +80,8 @@ void planificador() {
 								case restart:
 										WD_hal_test();
 										break;
+								case ev_confirmacion:
+										juego_tratar_evento(event,0);
 								default:
 										// Manejar otros casos aquí
 										break;
