@@ -35,6 +35,8 @@ static int primer_turno;
 static int turno;
 static int jugador;
 static int jugador_ant;
+static int cancelada=0;
+static int acabo=0;
 
 int isDigit(char c) {
     return (c >= '0' && c <= '9');
@@ -54,7 +56,7 @@ void gestionar_estado() {
     switch(estado) {
         case INICIO:
             // Mostrar instrucciones
-						linea_serie_libre = 0;
+			linea_serie_libre = 0;
             callback_f2("Has iniciado el juego ConectaK.\nUn juego de dos jugadores cuyo objetivo es completar una linea de K elementos.\nEn cada turno, el jugador puede introducir por consola $F-C! donde F es la fila y C la columna \nen la que quiere colocar ficha. A continuacion se mostrara por pantalla una previsualizacion\nde como quedaria la jugada, tras 3 segundos se confirmara la jugada sino se cancela pulsando el boton.\nEn cualquier momento se puede cancelar la partida pulsando el boton 2 o introduciento $END! por consola.\n");
             estado = INICIO_ESPERA;
             break;
@@ -86,16 +88,24 @@ void gestionar_estado() {
             if (primer_turno >= 0) {
              uint32_to_char(jug_global(),ply);
              strcat(cabecera6,ply);
+            callback_f2(cabecera6);
                 
             }else if (turno%2==0)
             {
                 jugador++;
                 uint32_to_char((jug_global()+jugador+1)%2,ply);
                 strcat(cabecera6,ply);
+                callback_f2(cabecera6);
             }else if (turno%2==1){
                 uint32_to_char((jug_global()+jugador+1)%2,ply);
                 strcat(cabecera6,ply);
+                callback_f2(cabecera6);
             }
+						break;
+        case FINAL_ESPERA:
+            // Mostrar tablero
+            conecta_K_visualizar_tablero(15);
+            break;
 	
            
         default:
@@ -150,8 +160,7 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
             {
                 callback_alarma(ev_confirmacion, 0, 0);
                 callback_f2("Jugada cancelada\n");
-                estado = TURNO_NUEVO;
-                gestionar_estado();
+								cancelada=1;
                 
             }
             break;
@@ -217,18 +226,26 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
                 t_total=t_fini-t_init;
                 conecta_K_visualizar_tiempo(t_total);
                 //hecho=1;
-						/*}else if(hecho==1){
-								hecho=0;
-								callback_f(restart,0);*/
-						} else {
+						}else if(estado == FINAL){
+                            estado = FINAL_ESPERA;
+                            gestionar_estado();		
+						} else if (estado == JUGADA_NUEVA_ESPERA && cancelada==1) {
+                            estado = TURNO_NUEVO;
+                            gestionar_estado();
+                            cancelada=0;
+                        }else if (estado == JUGADA_NUEVA_ESPERA && acabo==1){
+                            estado = FINAL;
+                            gestionar_estado();
+                        }
+                        else {
 								linea_serie_libre = 1;
 						}
             break;
         case ev_confirmacion:
             if (estado == JUGADA_NUEVA_ESPERA) {
-                tablero_insertar_color(&cuadricula, fila, columna, color);
-                if (conecta_K_hay_linea(&cuadricula, fila, columna, color)) {
-                    estado = FINAL;
+                tablero_insertar_color(&cuadricula, fila-1, columna-1, color);
+                if (conecta_K_hay_linea(&cuadricula, fila-1, columna-1, color)) {
+                    acabo=1;
                     callback_f2("PARTIDA ACABADA\n");
                 }else if(primer_turno > 0){
                     primer_turno--;
@@ -271,9 +288,13 @@ void uint32_to_char(uint32_t num, char* str) {
     }
 		
 		// Agregar unidad de tiempo
+        if (!(estado==FINAL))
+        {
 		str[i++] = ' ';
 		str[i++] = 'u';
 		str[i++] = 's';
+        }
+        
 
     // Agregar el carácter nulo al final de la cadena
     str[i++] = '\n';

@@ -15,13 +15,6 @@ tablero_test[7][7] = {
 2, 2, 0, 1, 0, 1, 1,
 0, 2, 0, 0, 0, 1, 0};
 
-// tablero_test[7][7] =
-// 1, 0, 0, 0, 2, 2,
-// 0, 1, 0, 2, 0, 0,
-// 0, 0, 0, 0, 2, 0,
-// 0, 2, 0, 0, 0, 0,
-// 2, 0, 1, 0, 1, 1,
-// 2, 0, 0, 0, 1, 0};
 
 // se pueden definir otros tableros para comprobar casos
 
