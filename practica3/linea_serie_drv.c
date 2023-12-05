@@ -93,11 +93,12 @@ void gestion_caracter(char c){
 							}
 							else{
 									error=1;
+								callback_func(ev_RX_SERIE,buffer[0] << 16 | buffer[1] << 8 | buffer[2]);
 							}
 							maq_estado=inicio;
 					}else{
-						// Poner a 1 el pin 29
 							error=1;
+							
 					}
 			}
 			else{
@@ -117,6 +118,7 @@ void gestion_caracter(char c){
 				error=0;
 				i=0;
 				maq_estado=inicio;
+				gpio_hal_escribir(com_error_pin, com_error_size, 1);
 				//estado=libre;
 		}
 }

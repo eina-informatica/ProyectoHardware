@@ -28,9 +28,9 @@ void planificador() {
 		temporizador_drv_reloj(1, FIFO_encolar, Timer1);
 		alarma_activar(dormir,USUARIO_AUSENTE,0);
 		linea_serie_drv_iniciar(FIFO_encolar,GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,GPIO_COMANDO_ERROR,GPIO_COMANDO_BITS,alarma_activar);
-		juego_inicializar(FIFO_encolar,linea_serie_drv_enviar_array,alarma_activar);
-		WD_hal_init(3);
-    	while(1){
+		juego_inicializar(FIFO_encolar,linea_serie_drv_enviar_array,alarma_activar,FIFO_estadisticas);
+		WD_hal_init(1);
+    	while(3){
 				WD_hal_feed();
 						if (FIFO_extraer(&event, &aux)) {
 								switch (event) {

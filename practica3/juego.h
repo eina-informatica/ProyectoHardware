@@ -8,7 +8,7 @@
 #ifndef JUEGO_H
 #define JUEGO_H
 
-void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(char*), void (*callback3)(EVENTO_T, uint32_t, uint32_t));
+void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(char*), void (*callback3)(EVENTO_T, uint32_t, uint32_t), uint32_t (*callback4)(EVENTO_T));
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData);
 int juego_leer_cuenta(void);
 int juego_leer_intervalo(void);

@@ -9,7 +9,7 @@
 #define COLA_H
 
 #define SIZE 32
-#define max_Eventos 20
+
 
 /* Inicialización de la
 cola. Se le pasa como parámetro el pin del GPIO utilizado para marcar

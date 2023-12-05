@@ -2,7 +2,7 @@
 
 #ifndef EVENTO_H
 #define EVENTO_H
-
+#define max_Eventos 16
 #define MAX_ALARM 4
 /*Definici�n del tipo de datos EVENTO_T:*/
 enum Evento {

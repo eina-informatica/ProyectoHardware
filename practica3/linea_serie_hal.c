@@ -6,7 +6,7 @@ static volatile enum estado_envio estado;
 
 static int indice=0;
 
-static char buffer_envio[200];
+static char buffer_envio[300];
 
 enum estado_envio {
 	ocupado,

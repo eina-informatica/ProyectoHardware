@@ -57,9 +57,13 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "linea_serie_hal.h": "c",
+    "juego.h": "c",
+    "timer_drv.h": "c",
+    "stddef.h": "c",
+    "stdlib.h": "c",
+    "string.h": "c",
     "evento.h": "c",
-    "ctype.h": "c",
-    "tablero_test.h": "c"
+    "stdint.h": "c",
+    "gpio_hal.h": "c"
   }
 }
