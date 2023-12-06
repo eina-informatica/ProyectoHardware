@@ -13,8 +13,8 @@ typedef uint8_t GPIO_HAL_PIN_T;
 
 
 __inline void gpio_hal_iniciar(void){
-    PINSEL0=0;
-    PINSEL1=0; 
+    PINSEL0 = 0;
+    PINSEL1 = 0; 
 }
 
 __inline void gpio_hal_sentido(GPIO_HAL_PIN_T gpio_inicial, uint8_t num_bits, gpio_hal_pin_dir_t direccion){
