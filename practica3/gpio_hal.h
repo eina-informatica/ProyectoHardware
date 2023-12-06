@@ -32,7 +32,7 @@ __inline void gpio_hal_sentido(GPIO_HAL_PIN_T gpio_inicial, uint8_t num_bits, gp
 
 __inline uint32_t gpio_hal_leer(GPIO_HAL_PIN_T gpio_inicial, uint8_t num_bits){
     return  (IOPIN >> gpio_inicial) & ~(0xFFFFFFFF << num_bits); // desplazamiento de IOPIN por bit_inicial para coloca el bit
-                                                            // bit_inicial en la posición menos significativa.
+                                                            // bit_inicial en la posiciï¿½n menos significativa.
                                                             
     //IO0PIN && 0xFFFF00FF) || 0x0000A500)
 
@@ -41,11 +41,11 @@ __inline uint32_t gpio_hal_leer(GPIO_HAL_PIN_T gpio_inicial, uint8_t num_bits){
 __inline void gpio_hal_escribir(GPIO_HAL_PIN_T bit_inicial, uint8_t num_bits, uint32_t valor){
     uint32_t valor_negado=~valor;                                                             
     valor = valor & (~(0xFFFFFFFF << num_bits));//ponemos a 0 los bits que queremos escribir y los negamos
-    valor= valor << bit_inicial; //desplazamos el valor a la posición que queremos escribir
+    valor= valor << bit_inicial; //desplazamos el valor a la posiciï¿½n que queremos escribir
     //IODIR= IODIR | valor; //ponemos a 1 los bits que queremos escribir
     IOSET= valor; //escribimos el valor
     valor_negado= valor_negado & (~(0xFFFFFFFF<< num_bits));//ponemos a 0 los bits que queremos escribir y los negamos
-    valor_negado= valor_negado << bit_inicial; //desplazamos el valor a la posición que queremos escribir
+    valor_negado= valor_negado << bit_inicial; //desplazamos el valor a la posiciï¿½n que queremos escribir
     IOCLR= valor_negado; //escribimos el valor
 }
 

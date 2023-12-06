@@ -3,6 +3,7 @@
 // Constant to convert ticks to microseconds
 static volatile unsigned int count_timer = 0;
 void timer0_ISR (void) __irq;    // Generate Interrupt 
+
 // Function to initialize the timer
 void temporizador_hal_iniciar() {
     // Configure the timer

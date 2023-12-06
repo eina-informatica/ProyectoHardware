@@ -1,8 +1,7 @@
 #include "tablero.h"
 
-void
-tablero_inicializar(TABLERO *t)
-{
+// Inicializar el tablero
+void tablero_inicializar(TABLERO *t) {
 	uint8_t i, j;
 	for(i = 0; i < NUM_FILAS; ++i){
 		for(j = 0; j < MAX_NO_CERO; ++j) {
@@ -44,6 +43,7 @@ int tablero_insertar_celda(TABLERO *t, uint8_t fila, uint8_t columna, CELDA *c) 
 	return EXITO;
 }
 
+// Insertar un color en una fila y columna dadas del tablero
 int tablero_insertar_color(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color) {
 	size_t col = 0;
 	// comprobar valided posición
@@ -96,6 +96,7 @@ int tablero_borrar_celda(TABLERO *t, uint8_t fila, uint8_t columna) {
 	return EXITO;
 }
 
+// Leer el valor de una celda dadas una fila y una columna del tablero
 CELDA tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna) {
 	size_t col = 0;
 	CELDA celda_invalida;
@@ -119,6 +120,7 @@ CELDA tablero_leer_celda(const TABLERO *t, uint8_t fila, uint8_t columna) {
 	return t->no_ceros[fila][col];
 }
 
+// Comprobar si en la posicion del tablero dada por la fila y la columna está el color
 int tablero_buscar_color(const TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color) {
 	size_t col = 0;
 	// comprobar validez posición

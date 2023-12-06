@@ -13,12 +13,12 @@ void entrada_inicializar(volatile uint8_t entrada[ALIGN_8]) {
 		entrada[3] = 0; //color
 }
 
-//hay nueva jugada? (alguien ha modificado asincronamente el contenido de memoria) 
+// hay nueva jugada? (alguien ha modificado asincronamente el contenido de memoria) 
 uint8_t entrada_nueva(volatile uint8_t entrada[ALIGN_8]) { 
 	return entrada[0];
 }
 
-//leer fila / columna / color
+// leer fila / columna / color
 void entrada_leer(volatile uint8_t entrada[ALIGN_8], uint8_t *fila, uint8_t *columna, uint8_t *color) {
 	// restamos 1 porque el humano juega de 1..m, pero el formato interno va de 0..(m-1)
 	*fila = entrada[1] - 1;

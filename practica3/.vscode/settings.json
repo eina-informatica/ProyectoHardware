@@ -64,6 +64,7 @@
     "string.h": "c",
     "evento.h": "c",
     "stdint.h": "c",
-    "gpio_hal.h": "c"
+    "gpio_hal.h": "c",
+    "linea_serie_hal.h": "c"
   }
 }

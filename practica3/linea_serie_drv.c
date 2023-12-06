@@ -14,7 +14,7 @@ enum estado_recibir{
 	durante
 };
 
-static volatile enum estado_recibir maq_estado=inicio;
+static volatile enum estado_recibir maq_estado = inicio;
 
 static void (*callback_func_a)(EVENTO_T, uint32_t, uint32_t);
 static void (*callback_func)(EVENTO_T, uint32_t); // Encolar evento
@@ -22,9 +22,8 @@ static uint32_t USUARIO_AUSENTE=8400608;//---> 12 seg * 0x800000 para activar pe
 
 static int i;
 
+// Función para inicializar el driver de línea serie
 void linea_serie_drv_iniciar(void (*callback)(EVENTO_T, uint32_t), uint32_t ser_err_pin, uint32_t ser_err_size, uint32_t com_err_pin, uint32_t com_err_size, void (*callback_a)(EVENTO_T, uint32_t, uint32_t)){
-    /*callback_func_temp = funcion_tratar_caracter;
-    character = c;*/
 	ser_error_pin = ser_err_pin;
 	ser_error_size = ser_err_size;
 	com_error_pin = com_err_pin;
@@ -35,14 +34,17 @@ void linea_serie_drv_iniciar(void (*callback)(EVENTO_T, uint32_t), uint32_t ser_
   uart0_init(gestion_caracter, callback);
 }
 
+// Enviar una cadena de carácteres por línea serie
 void linea_serie_drv_enviar_array(char cadena[]){
     linea_serie_hal_enviar_array(cadena);
 }
 
+// Función para continuar el envío por línea serie
 void linea_serie_drv_continuar_envio(){
     linea_serie_hal_continuar_envio();
 }
 
+// Función para gestionar un carácter que llega
 void gestion_caracter(char c){
   static int error=0;
 	callback_func_a(dormir, USUARIO_AUSENTE, 0);

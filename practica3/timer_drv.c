@@ -19,9 +19,12 @@ uint64_t temporizador_drv_leer(){
 uint64_t temporizador_drv_parar(){
     return temporizador_hal_parar()/TIMER_HAL_TICKS2US;
 }
+
 uint32_t __SWI_0 (void) {
     return temporizador_drv_leer();
 }
+
+// Función auxiliar de callback para ser llamada desde timer_hal
 void aux_callback() {
     if (callback_func_temp != NULL) {
         callback_func_temp(evento_temp, 0);

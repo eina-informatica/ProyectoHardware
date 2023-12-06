@@ -1,31 +1,31 @@
 #include "juego.h"
 
+// Enumeración que representa los distintos estados del juego
 enum Estado {
     INICIO,
-		INICIO_ESPERA,
+	INICIO_ESPERA,
     TURNO_NUEVO,
-		TURNO_NUEVO_ESPERA,
+	TURNO_NUEVO_ESPERA,
     JUGADA_NUEVA,
-		JUGADA_NUEVA_ESPERA,
+	JUGADA_NUEVA_ESPERA,
     FINAL,
-		FINAL_ESPERA
+	FINAL_ESPERA
 };
 
-static void (*callback_f)(EVENTO_T, uint32_t);
-static void (*callback_f2)(char*);
-static void (*callback_alarma)(EVENTO_T, uint32_t, uint32_t);
+// Punteros a funciones de callback
+static void (*callback_f)(EVENTO_T, uint32_t); // Encolar en FIFO
+static void (*callback_f2)(char*); // Enviar por línea serie
+static void (*callback_alarma)(EVENTO_T, uint32_t, uint32_t); // 
 static uint32_t (*callback_stats)(EVENTO_T);
+
+// Variables estáticas para el control del juego
 static uint32_t cuenta;
 static uint32_t intervalo;
 static uint32_t ant_intervalo;
 static char tablero[400];
-//static CELDA celda;
 static uint8_t fila = 0;
 static uint8_t columna = 0;
 static uint8_t color = 1;
-/*static unsigned int final = 0;
-static unsigned int ganador = 0;
-*/
 static TABLERO cuadricula;
 static uint32_t t_init,t_fini,t_total;
 static char comandito[4];
@@ -41,6 +41,8 @@ static int acabo=0;
 static int rendir=0;
 static int mal=0;
 static int travieso=0;
+
+// Estadísticas
 static uint32_t tiempo_ini_proces;
 static uint32_t tiempo_fin_proces;
 static uint32_t tiempo_ini_hay_linea;
@@ -54,11 +56,12 @@ static int calc=0;
 static int hay=0;
 static int numVecesAnt[max_Eventos-2] = {0};
 
-
-
+// Devuelve 1 si el carácter "c" es un dígito
 int isDigit(char c) {
     return (c >= '0' && c <= '9');
 }
+
+// Función que devuelve el jugador global en función del jugador anterior y la variable "rendir"
 int jug_global(void){
     if ((jugador_ant%2)==0){
         if (rendir){
@@ -75,7 +78,7 @@ int jug_global(void){
 
 // Función invocada tras tratar un evento para gestionar un potencial cambio de estado
 void gestionar_estado() {
-		char ply[20];
+	char ply[20];
     char cabecera6[] = "El ganador es el jugador ";
     switch(estado) {
         case INICIO:
@@ -105,7 +108,6 @@ void gestionar_estado() {
             //conecta_K_visualizar_tablero();
             break;
         case JUGADA_NUEVA:
-            
             // Mostrar tablero con futura ficha colocada
         case FINAL:
             // Mostrar ganador
@@ -128,7 +130,7 @@ void gestionar_estado() {
 						break;
         case FINAL_ESPERA:
             // Mostrar tablero
-            conecta_K_visualizar_tablero(15);
+            conecta_K_visualizar_tablero(-1);
             break;
 	
            
@@ -136,12 +138,12 @@ void gestionar_estado() {
             break;
     }
 }
-// carga el estado a mitad de partida de las primeras 7 filas y columnas 
+
+// carga el estado a mitad de partida de las primeras NUM_FILAS filas y NUM_COLUMNAS columnas 
 // a la estructura de datos tablero para facilitar el test de posibles jugadas
 //
 // 0: casilla vacia, 1:ficha jugador uno, 2: ficha jugador dos
-void conecta_K_test_cargar_tablero(TABLERO *t)
-{
+void conecta_K_test_cargar_tablero(TABLERO *t) {
 	#include "tablero_test.h"	
     uint8_t i,j;
 	
@@ -210,7 +212,7 @@ void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(c
     callback_f = callback; // Encolar en FIFO
     callback_f2 = callback2; // Enviar por línea serie
     callback_alarma = callback3;
-    callback_stats=callback4;
+    callback_stats = callback4;
     cuenta=0;
     intervalo=0;
     ant_intervalo=0;
@@ -233,6 +235,7 @@ void juego_inicializar(void (*callback)(EVENTO_T, uint32_t), void (*callback2)(c
 	gestionar_estado(); // Nada más inicializar mostramos instrucciones por pantalla
 }
 
+// Función que gestiona el juego y que trata todos los eventos que van llegando relativos a este
 void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 		int i;
 //        int j;
@@ -334,7 +337,7 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
             }else if (strcmp(comandito,"TAB")==0){
                 hecho=0;
                 t_init=clock_getus();
-                conecta_K_visualizar_tablero(15);
+                conecta_K_visualizar_tablero(-1);
             }else if (comandito[1]=='-'){
                 if (estado == TURNO_NUEVO){
                     if(isDigit(comandito[2]) && isDigit(comandito[0])){
@@ -473,13 +476,14 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
     }
 }
 
-// tenemoS que convertir el uint que recibimos en un char* para poder enviarlo por la linea serie
+// Tenemos que convertir el uint que recibimos en un char* para poder enviarlo por la linea serie
 void conecta_K_visualizar_tiempo(uint32_t tiempo){
         char tiempo_char[33];
         uint32_to_char(tiempo, tiempo_char);
         callback_f2(tiempo_char);
 }
 
+// Función para convertir un número entero a una cadena de caracteres
 void uint32_to_char(uint32_t num, char* str) {
     int i = 0;
     uint32_t temp = num;
@@ -511,6 +515,7 @@ void uint32_to_char(uint32_t num, char* str) {
     str[i++] = '\n';
     str[i] = '\0';
 }
+
 int juego_leer_cuenta(void){
     return cuenta;
 }
@@ -519,7 +524,7 @@ int juego_leer_intervalo(void){
     return intervalo;
 }
 
-
+// Función para buscar si hay linea, devuelve 1 si la hay y 0 en caso contrario
 uint8_t conecta_K_hay_linea(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t color){
      enum { N_DELTAS = 4};
    int8_t deltas_fila[N_DELTAS] = {0, -1, -1, 1};
@@ -547,8 +552,9 @@ uint8_t conecta_K_hay_linea(TABLERO *t, uint8_t fila, uint8_t columna, uint8_t c
 
 }
 
+// Función para buscar si hay alineamiento o no
 uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
-	uint8_t columna, uint8_t color, int8_t delta_fila, int8_t
+uint8_t columna, uint8_t color, int8_t delta_fila, int8_t
 	delta_columna)
 {
 	uint8_t nueva_fila;
@@ -566,23 +572,24 @@ uint8_t conecta_K_buscar_alineamiento(TABLERO *t, uint8_t fila,
     return 1 + conecta_K_buscar_alineamiento(t, nueva_fila, nueva_columna, color, delta_fila, delta_columna);
 }
 
-
+// Función para visualizar el estado actual del tablero
+// Se envía un entero que codifica el jugador al que le toca el turno, normalmente suele ser 1 o 2, 
+// pero puede ser -1 para situaciones en las que hay que visualizar el tablero simplemente, como cuando se escribe $TAB! por consola
 void conecta_K_visualizar_tablero(int player) {
-    const char cabecera1[] = "Turno del 1er moro\n";
-    const char cabecera2[] = "Turno del 2do moro\n";
+    const char cabecera1[] = "Turno del 1er jugador\n";
+    const char cabecera2[] = "Turno del 2do jugador\n";
     const char cabecera3[] = "Mostrar tablero\n";
     unsigned int indice = 0;
     int i, j;
-     if (player==1){
+     if (player == 1){
         strcpy(tablero, cabecera1);
         indice = strlen(cabecera1);
-    } else if (player==2) {
+    } else if (player == 2) {
         strcpy(tablero, cabecera2);
         indice = strlen(cabecera2);
-    }else if (player==15){
+    }else if (player == -1){
         strcpy(tablero, cabecera3);
-        indice = strlen(cabecera3);
-        
+        indice = strlen(cabecera3);    
     }
     // Ciclo para recorrer las filas del tablero en orden descendente
     for (i = NUM_FILAS - 1; i >= 0; i--) {
@@ -624,6 +631,7 @@ void conecta_K_visualizar_tablero(int player) {
     callback_f2(tablero);
 }
 
+// Función para marcar la futura colocación de una ficha en la posición dada por "fila" y "columna" con un "#"
 void visualizar_jugada(uint32_t fila, uint32_t columna){
     unsigned int indice = 0;
     const char cabecera3[] = "Jugada erronea, posicion ya ocupada\n";
@@ -700,32 +708,9 @@ void visualizar_jugada(uint32_t fila, uint32_t columna){
     tablero[indice] = '\0';
 
     callback_f2(tablero);
-}/*
-void introducir_ficha(char tablero[], CELDA* cuadricula, int player) {
-    // Obtener la posición de la ficha en el tablero
-    int i;
-    int j;
-    int fila = 0;
-    int columna = 0;
-    for (i = 0; i < NUM_FILAS; i++) {
-        for (j = 0; j < NUM_COLUMNAS; j++) {
-            if (tablero[i * (NUM_COLUMNAS + 1) + j] == '#') {
-                fila = i + 1;
-                columna = j + 1;
-                break;
-            }
-        }
-    }
-
-    // Insertar la ficha en la cuadrícula
-    if (player == 0) {
-        celda_poner_valor(cuadricula[(fila)][(columna)], 0x05);
-    } else if (player == 1) {
-        celda_poner_valor(cuadricula[(fila)][(columna)], 0x06);
-    }
 }
-*/
 
+// Convertir entero a caracter en cualquier base
 char* itoa(int value, char* buffer, int base)
 {
 		int i, n,r;
@@ -768,6 +753,7 @@ char* itoa(int value, char* buffer, int base)
     return reverse(buffer, 0, i - 1);;
 }
 
+// Función para intercambiar los valores apuntados por x e y
 void swap(char *x, char *y) {
     char t = *x; *x = *y; *y = t;
 }

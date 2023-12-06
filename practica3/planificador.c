@@ -5,30 +5,30 @@
 void planificador() {
 		uint32_t aux=0;
 		EVENTO_T event;
-//		static uint32_t bit_IRQ;
-		//inicializar();
-//		static int USUARIO_AUSENTE=8400608;//---> 12 seg * 0x800000 para activar periocidad
-		//int res=1,i,toal,
+    // static uint32_t bit_IRQ;
+		// inicializar();
+    // static int USUARIO_AUSENTE=8400608;//---> 12 seg * 0x800000 para activar periocidad
+		// int res=1,i,toal,
 		temporizador_drv_iniciar();
 		temporizador_drv_empezar();
 		gpio_hal_sentido(0, 32, GPIO_HAL_PIN_DIR_OUTPUT);
 		
-		//for (i=0;i<1000000;i++){res*=res;res-=4;}
-		//	toal=temporizador_drv_parar(); 	//Pruebas de tiempo
-		//gpio_hal_escribir(0, 32, 0);
+		// for (i=0;i<1000000;i++){res*=res;res-=4;}
+		// toal=temporizador_drv_parar(); 	//Pruebas de tiempo
+		// gpio_hal_escribir(0, 32, 0);
 		gpio_hal_escribir(14,2,3);
 		gpio_hal_sentido(14, 2, GPIO_HAL_PIN_DIR_INPUT);
 			
-		FIFO_inicializar(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS,GPIO_HAL_PIN_DIR_OUTPUT,gpio_hal_escribir,gpio_hal_sentido);
+		FIFO_inicializar(GPIO_OVERFLOW, GPIO_OVERFLOW_BITS, GPIO_HAL_PIN_DIR_OUTPUT, gpio_hal_escribir, gpio_hal_sentido);
 		alarma_inicializar(FIFO_encolar);
-		boton_init(FIFO_encolar,alarma_activar);
+		boton_init(FIFO_encolar, alarma_activar);
 		//juego_inicializar();
-		inicializar_visualizar(INI_Visualizar,Tam_Visualizar,GPIO_HAL_PIN_DIR_OUTPUT,gpio_hal_sentido,gpio_hal_escribir);
-		hello_world_inicializar(alarma_activar, GPIO_HELLO_WORLD, GPIO_HELLO_WORLD_BITS, GPIO_HAL_PIN_DIR_OUTPUT,gpio_hal_sentido);
+		inicializar_visualizar(INI_Visualizar, Tam_Visualizar, GPIO_HAL_PIN_DIR_OUTPUT, gpio_hal_sentido, gpio_hal_escribir);
+		hello_world_inicializar(alarma_activar, GPIO_HELLO_WORLD, GPIO_HELLO_WORLD_BITS, GPIO_HAL_PIN_DIR_OUTPUT, gpio_hal_sentido);
 		temporizador_drv_reloj(1, FIFO_encolar, Timer1);
 		alarma_activar(dormir,USUARIO_AUSENTE,0);
-		linea_serie_drv_iniciar(FIFO_encolar,GPIO_SERIE_ERROR,GPIO_SERIE_ERROR_BITS,GPIO_COMANDO_ERROR,GPIO_COMANDO_BITS,alarma_activar);
-		juego_inicializar(FIFO_encolar,linea_serie_drv_enviar_array,alarma_activar,FIFO_estadisticas);
+		linea_serie_drv_iniciar(FIFO_encolar, GPIO_SERIE_ERROR, GPIO_SERIE_ERROR_BITS, GPIO_COMANDO_ERROR, GPIO_COMANDO_BITS, alarma_activar);
+		juego_inicializar(FIFO_encolar, linea_serie_drv_enviar_array, alarma_activar, FIFO_estadisticas);
 		WD_hal_init(1);
     	while(3){
 				WD_hal_feed();
@@ -86,7 +86,9 @@ void planificador() {
 										// Manejar otros casos aquí
 										break;
 								}
-						}else{energia_idle();}//wait();}
+						}else{
+							energia_idle();
+						}//wait();}
 		}
 		
 		
