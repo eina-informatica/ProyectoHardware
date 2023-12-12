@@ -84,7 +84,7 @@ void gestionar_estado() {
         case INICIO:
             // Mostrar instrucciones
 			linea_serie_libre = 0;
-            callback_f2("Has iniciado el juego ConectaK.\nUn juego de dos jugadores cuyo objetivo es completar una linea de K elementos.\nEn cada turno, el jugador puede introducir por consola $F-C! donde F es la fila y C la columna \nen la que quiere colocar ficha. A continuacion se mostrara por pantalla una previsualizacion\nde como quedaria la jugada, tras 3 segundos se confirmara la jugada sino se cancela pulsando el boton.\nEn cualquier momento se puede cancelar la partida pulsando el boton 2 o introduciento $END! por consola.\n");
+            callback_f2("Has iniciado el juego ConectaK.\nUn juego de dos jugadores cuyo objetivo es completar una linea de K elementos.\nEn cada turno, el jugador puede introducir por consola $F-C! donde F es la fila y C la columna \nen la que quiere colocar ficha. A continuacion se mostrara por pantalla una previsualizacion\nde como quedaria la jugada, tras 3 segundos se confirmara la jugada sino se cancela pulsando el boton.\nEn cualquier momento se puede cancelar la partida pulsando el boton 2 o introduciento $END! por consola.\nPara comenzar, escribe $NEW!\n");
             estado = INICIO_ESPERA;
             break;
         case TURNO_NUEVO:
@@ -321,7 +321,7 @@ void juego_tratar_evento(EVENTO_T ID_evento, uint32_t auxData){
 																		calc=0;
 																		tiempo_total_hay_linea=0;
 																		tiempo_total_pensar=0;
-                                    conecta_K_test_cargar_tablero(&cuadricula);
+                                    //conecta_K_test_cargar_tablero(&cuadricula);
 									
                                     jugador_ant++;
                                     estado = TURNO_NUEVO;
